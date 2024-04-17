@@ -1,0 +1,276 @@
+body {
+    /*    font-size: 13px !important;*/
+        font-size: 12px !important;
+    }
+
+    .header {
+        height: 60px !important;
+    }
+    
+    .header-nav .profile {
+        min-width: 190px !important;
+    }
+    
+    .header-nav .profile .dropdown-item {
+        font-size: 13px !important;
+        padding: 7px 10px !important;
+    }
+    .header .toggle-sidebar-btn {
+        font-size: 25px !important;
+        padding-left: 0px !important;
+        cursor: pointer;
+        color: #012970;
+      }
+    .dropdown-menu {
+        padding: 0px 0 !important;
+    }
+    
+    .sidebar {
+        /* width: 200px !important; */
+        padding: 25px !important;
+        top: 50px !important;
+    }
+    
+    .sidebar-nav .nav-link {
+        font-size: 15px !important;
+        padding: 10px 15px !important;
+    }
+    
+    .nav-content a {
+        font-size: 15px !important;
+        padding: 7px 2px 7px 21px !important;
+    }
+    .card {
+        margin-bottom: 30px !important;
+    }
+    
+    .card-title {
+    /*    font-size: 15px !important;*/
+        font-size: 15px !important;
+        line-height: 12px !important;
+    }
+    
+    .card-header {
+        padding: 0.5rem 1rem !important;
+    }
+    .form-input-content .card .card-body {
+        padding: 25px !important;
+    }
+    
+    .dropdown-profile {
+        width: 200px;
+    }
+    
+    .form-control {
+        height: 30px !important;
+        min-height: 30px !important;
+        font-size: small !important;
+        padding: 0.5rem !important;
+        font-weight: 500 !important;
+        border-radius: 0.2rem;
+    }
+    
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #e9ecef !important;
+    }
+    
+    .textarea-sty {
+    /*    height: 70px !important;*/
+        height: 50px !important;
+    }
+    
+    .textarea-sty_1 {
+        height: 100px !important;
+    }
+    
+    .checkbox-style {
+        min-height: 1.3rem !important;
+        margin-top: -3px !important;
+        padding-left: 16px !important;
+        margin-right: -16px !important;
+    }
+    
+    .radio-style {
+        margin:10px 40px 10px 0px;
+        font-size: 18px;
+    }
+    
+    .radio-inline {
+        height: 16px;
+        width: 16px;
+        margin-left: 2px;
+        margin-right: 4px;
+    }
+    
+    .select2-container .select2-selection--single {
+        height: 30px !important;
+    }
+    
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 30px !important;
+        font-weight: 500 !important;
+    }
+    
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 28px !important;
+    }
+    
+    .select2-error .error {
+        position: absolute !important;
+        margin: 17px 0px 0px 15px !important;
+    /*    margin: 33px 0px 0px 17px !important;*/
+    }
+    
+    .select2-container {
+        display: block !important;
+    }
+    
+    .width-auto {
+        width: auto;
+    }
+    
+    .select2-container {
+        display: block !important;
+        width: auto !important;
+    /*    width: 100% !important;*/
+    }
+    
+    .table-bordered {
+        border: 1px solid #dee2e6 !important;
+    }
+    .table-header-fixed {
+        overflow-y: auto;
+        height: 400px;
+    }
+    
+    .table-header-fixed thead th {
+        position: sticky;
+        top: 0;
+    }
+    
+    .table-header-fixed table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .table-header-fixed th, .table-header-fixed td {
+    /*    padding: 8px 16px;*/
+        border: 1px solid #ccc;
+    }
+    
+    .table-header-fixed th {
+        background: #eee;
+    }
+    
+    .page-link {
+        padding: 0.2rem 0.5rem;
+        line-height: 1;
+    }
+    .btn
+    {
+        font-size: 12px !important; 
+        border-radius: 0.2rem;
+        font-weight: 600 !important;
+    }
+    .form-select1 {
+        /* --bs-form-select-bg-img: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e); */
+        display: block;
+        width: 100%;
+        /* padding: .375rem 2.25rem .375rem .75rem; */
+        /* font-size: 1rem; */
+        padding-right: 50px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--bs-body-color);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: var(--bs-body-bg);
+        background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
+        background-repeat: no-repeat;
+        background-position: right .75rem center;
+        background-size: 16px 20px;
+        border: var(--bs-border-width) solid var(--bs-border-color);
+        border-radius: 0.2rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+    .form-select{
+        font-size: 12px;
+        border-radius: 0.2rem;
+    }
+    .fstdropdown>.fstselected {
+        font-size: 12px !important;
+        padding: 5px 24px 5px 5px !important;
+    }
+   .flex
+   {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+   }
+   .size-10
+   {
+    font-size: 20px;
+   }
+   .btn-purple
+   {
+    background-color: #294791;
+    color: #fff;
+   }
+   .btn-purple:hover
+   {
+    background-color: #646890;
+    color: #fdfbfb;
+   }
+   .btn-status
+   {
+    background-color: #570f4f;
+    color: #fff;
+   }
+   .btn-status:hover
+   {
+    background-color: #692875;
+    color: #fdfbfb;
+   }
+   .form-label
+   {
+    margin-bottom: .2rem;
+   }
+   .form-control1{
+    height: auto;
+   }
+   .text-red
+   {
+    color: #f72a2a;
+   }
+   .fstdropdown>.fstselected
+   {
+    line-height: 1.42857143;
+    padding: 6px 24px 6px 12px;
+    box-shadow:none !important;
+    color: #555;
+    font-size: 14px;
+    outline: 0;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-user-select: none;
+   }
+   .fstdropdown > .fstselected
+   {
+    line-height: 1.42857143;
+    padding: 6px 24px 6px 12px;
+    box-shadow:none !important;
+    color: #555;
+    font-size: 14px;
+    outline: 0;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-user-select: none;
+   }
+   
+   
