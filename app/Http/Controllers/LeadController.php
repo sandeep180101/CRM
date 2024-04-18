@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cities;
-use App\Models\CommonModel;
 use App\Models\Countries;
 use App\Models\LeadNote;
 use App\Models\Leads;
@@ -24,8 +23,17 @@ class LeadController extends Controller
     {
         try {
             $data['title'] = "Leads Detail";
-            $data["leads"] = Leads::all();
+            $data["leads"] = Leads::select(
+                'leads.*',
+                'master_lead_status.lead_status_name as lead_status_name',
+                'master_lead_source.lead_source_name as lead_source_name'
+            )
+            ->leftJoin('master_lead_status', 'leads.lead_status_id', '=', 'master_lead_status.id')
+            ->leftJoin('master_lead_source', 'leads.lead_source_id', '=', 'master_lead_source.id')
+            ->paginate(10);
             $data["lead_status"] = Leadstatus::all();
+            $data["lead_source"] = LeadSourceStatus::all();
+
             return view("lead.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -104,22 +112,37 @@ class LeadController extends Controller
     }
 
     function leadFilter(Request $request){
-        try{
-            $limit = $request->limit ? $request->limit : 10;
-            $start = $request->start ? $request->start : 0;
-            $param = array('name' => $request->name,'company_name' => $request->company_name,'email' => $request->email,'phone' => $request->phone,'id'=>$request->id,'lead_status'=>$request->lead_status,'limit' => $limit , 'start' => $start);
-            $leads = Leads::getLeadDetails($param);
-            if($leads['total_count'] > 0){
+        try {
+                $params =array(
+                    'name' => $request->leadname,
+                    'company_name' => $request->company_name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'fdate' => $request->fdate,
+                    'tdate' => $request->tdate,
+                    'lead_status_id' => $request->leadstatus,
+                    'lead_source_id' => $request->lead_source,
+                );
+            dd($params);
+            if (count(array_filter($params)) > 0) {
+                $leads = Leads::getLeadDetails($params);
+            }
+            $data = [];
+            if ($leads['total_count'] > 0) {
                 $data['leads'] = $leads['results'];
                 $data['total_count'] = $leads['total_count'];
-                $count = count($leads['results'])+ $request->start;
-                $data['message'] = "Showing ".++$request->start." to ". $count ." of ".$leads['total_count']." records.";
+                $count = count($leads['results']) ;
+                $data['status'] = 'success';
+            } else {
+                $data['message'] = 'No records found.';
                 $data['status'] = 'success';
             }
-            return json_encode($data);
+    
+            return response()->json($data);
         } catch(\Exception $e){
-            $returnData = $e;
-            return json_encode($returnData);exit; 
+            $returnData = ['status' => 'error', 'message' => $e->getMessage()];
+            return response()->json($returnData, 500);
         }
     }
+
 }

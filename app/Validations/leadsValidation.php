@@ -11,6 +11,7 @@ class LeadsValidation
         $validator = Validator::make($data, [
             'date' => 'required|date',
             'name' => 'required|string||max:100',
+            'company_name' => 'required|string||max:100',
             'email' => 'nullable|email|max:50',
             'phone' => 'nullable|max:15',
             'address' => 'nullable',
@@ -20,8 +21,8 @@ class LeadsValidation
             'pincode' => 'nullable',
             'product_details' => 'required|string',
             'approximate_amount'=> 'required|numeric|min:5000|max:9999999',
-            'lead_source'=> 'nullable',
-            'lead_status'=> 'nullable',
+            'lead_source_id'=> 'required',
+            'lead_status_id'=> 'required',
         ]);
 
         if ($validator->fails()) {

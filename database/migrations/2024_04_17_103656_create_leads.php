@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('name', 100);
+            $table->string('company_name', 100);
             $table->string('email', 50);
             $table->string('phone', 15);
             $table->string('address', 255)->nullable();

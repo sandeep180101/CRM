@@ -1,6 +1,6 @@
 <?php
 return [
-    'SITE_URL' => env('APP_URL', 'http://localhost:8081/projectcsme'),
+    'SITE_URL' => env('APP_URL', 'http://localhost:8081/CRM'),
 
-define('ASSETS','http://localhost:8081/projectcsme/public/assets'),
+define('ASSETS','http://localhost:8081/CRM/public/assets'),
 ];

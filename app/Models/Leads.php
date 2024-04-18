@@ -14,13 +14,13 @@ class Leads extends Model
 
     protected $table = 'leads';
 
-    protected $fillable = ['date','name','email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id','lead_status_id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+    protected $fillable = ['date','name','company_name','email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id','lead_status_id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
 
 
 
     public function getSaveData()
     {
-        return array('date','name','email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id','lead_status_id', 'created_by', 'updated_by', 'created_at', 'updated_at');
+        return array('date','name','company_name','email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id','lead_status_id', 'created_by', 'updated_by', 'created_at', 'updated_at');
     }
 
     public function saveData($post)
@@ -83,46 +83,43 @@ class Leads extends Model
     public static function getLeadDetails($params = [])
     {
         $query = DB::table('leads');
-        $query->select("id", 'name', "company_name", 'phone', 'email', 'lead_status');
-        if (isset($params['id'])) {
-            $id = isset($params['id']) ? $params['id'] : '';
-            $query->where('id', $id);
-        }
+        $query->select("id", 'name','company_name', 'phone', 'email', 'lead_status_id');
 
-        if (!empty($params['company_name'])) {
-            $query->where('company_name', 'like', '%' . $params['company_name'] . '%');
+        if (!empty($params['name'])) {
+            $query->where('name', 'like', '%' . $params['name'] . '%');
         }
         if (!empty($params['phone'])) {
             $query->where('phone', 'like', '%' . $params['phone'] . '%');
         }
-
         if (!empty($params['email'])) {
             $query->where('email', 'like', '%' . $params['email'] . '%');
         }
-        if (!empty($params['lead_status'])) {
-            $query->where('lead_status', 'like', '%' . $params['lead_status'] . '%');
+        if (!empty($params['company_name'])) {
+            $query->where('company_name', 'like', '%' . $params['company_name'] . '%');
         }
-
-
-        if (isset($params['status']) && in_array($params['status'], [0, 1])) {
-            $query->where('c.status', $params['status']);
+        if (!empty($params['fdate'])) {
+            $query->where('date', 'like', '%' . $params['fdate'] . '%');
+        }
+        if (!empty($params['tdate'])) {
+            $query->where('date', 'like', '%' . $params['tdate'] . '%');
+        }
+        if (!empty($params['lead_status_id'])) {
+            $query->where('lead_status_id', 'like', '%' . $params['lead_status_id'] . '%');
+        }
+        if (!empty($params['lead_source_id'])) {
+            $query->where('lead_source_id', 'like', '%' . $params['lead_source_id'] . '%');
         }
 
         $totalCount = $query->count();
-        if (isset($params['start']) && isset($params['limit']) && !empty($params['limit'])) {
-            $query->offset($params['start'])->limit($params['limit']);
-        }
-
-        $query->orderBy('company_name', 'ASC');
-        // $lastQuery = $query->toSql();
-        // echo $lastQuery; exit;
+    
+        // if (isset($params['start']) && isset($params['limit']) && !empty($params['limit'])) {
+        //     $query->offset($params['start'])->limit($params['limit']);
+        // }
+    
+        $query->orderBy('id', 'ASC');
         $results = $query->get();
-        if ($totalCount) {
-            return ['results' => $results, 'total_count' => $totalCount];
-        } else {
-            return ['results' => '', 'total_count' => 0];
-        }
-
+    
+        return ['results' => $results, 'total_count' => $totalCount];
     }
 
 }

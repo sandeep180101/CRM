@@ -46,6 +46,7 @@ Route::get('leads/add/{id?}', [LeadController::class, 'add']);
 Route::get('leads/view/{id}', [LeadController::class, 'view']); 
 Route::post('leads/save', [LeadController::class, 'save']);
 Route::any('leads/delete/{id}', [LeadController::class, 'destroy']);
+Route::any('leads/filter', [LeadController::class, 'leadFilter']);
 
 Route::post('leadnote/view/save', [LeadNoteController::class, 'save']);
 Route::any('leadnote/delete/{id}', [LeadNoteController::class, 'destroy']);
@@ -71,4 +72,4 @@ Route::get('countries', [CountryController::class, 'index']);
 Route::get('countries/add/{id?}', [CountryController::class, 'add']); 
 Route::post('countries/save', [CountryController::class, 'save']);
 
-    });
+});
