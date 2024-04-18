@@ -11,6 +11,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -50,6 +51,9 @@ Route::any('leads/filter', [LeadController::class, 'leadFilter']);
 
 Route::post('leadnote/view/save', [LeadNoteController::class, 'save']);
 Route::any('leadnote/delete/{id}', [LeadNoteController::class, 'destroy']);
+
+Route::get('user', [UserController::class, 'add']); 
+Route::post('user', [UserController::class, 'save']); 
 
 
 Route::get('master', [MasterController::class, 'index']); 

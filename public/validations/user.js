@@ -1,47 +1,4 @@
 $(document).ready(function () {
-    $('#searchButton').click(function () {
-        var formData = {
-            'name': $('#name').val(),
-            'company_name': $('#company_name').val(),
-            'phone': $('#phone').val(),
-            'email': $('#email').val(),
-            'fdate': $('#fdate').val(),
-            'tdate': $('#tdate').val(),
-            'lead_status_id': $('#lead_status_id').val(),
-            'lead_source_id': $('#lead_source_id').val()
-        };
-        $.ajax({
-            type: 'POST',
-            url: SITE_URL + 'leads/filter',
-            data: formData,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            success: function (data) {
-                var rows = '';
-                $.each(data.leads, function (index, lead) {
-                    rows += '<tr>' +
-                        '<td>' + lead.id + '</td>' +
-                        '<td>' + lead.date + '</td>' +
-                        '<td>' + lead.name + '</td>' +
-                        '<td>' + lead.company_name + '</td>' +
-                        '<td>' + lead.phone + '</td>' +
-                        '<td>' + lead.email + '</td>' +
-                        '<td>' + lead.lead_status_name + '</td>' +
-                        '<td>' + lead.lead_source_name + '</td>' +
-                        '<td>' +
-                        '<a href="' + SITE_URL + '/leads/add/' + btoa(lead.id) + '"><i class="bi bi-pencil-square mx-1"></i></a>&nbsp;&nbsp;' +
-                        '<a href="' + SITE_URL + '/leads/view/' + btoa(lead.id) + '"><i class="text-black bi bi-eye"></i></a>&nbsp;&nbsp;' +
-                        '<a href="' + SITE_URL + '/leads/delete/' + btoa(lead.id) + '"><i class="text-black bi bi-trash3"></i></a>' +
-                        '</td>' +
-                        '</tr>';
-                });
-                $('#table-content').html(rows);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-    });
-    
 
     $("#lead_form").validate({
         rules: {
@@ -124,5 +81,4 @@ $(document).ready(function () {
             });
         },
     });
-
 });

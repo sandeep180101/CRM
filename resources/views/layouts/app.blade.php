@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>{{$title}}</title>
   <meta content="" name="description">
@@ -37,6 +38,8 @@
    <link href="{{ ASSETS }}/css/jquery.dropdownsearchlist.css" rel="stylesheet">
    <link href="test/fstdropdown.css" rel="stylesheet">
    <link href="test/fstdropdown.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
    {{-- <script type="text/javascript" src="{{ url('public/assets/js/toastr.min.js') }}" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
@@ -142,10 +145,11 @@
 
         </li><!-- End Messages Nav -->
 @php
-use App\Models\User;
 
-    $userId =session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
-    $name = User::where('id', $userId)->value('name');
+$userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
+    $user = \App\Models\User::where('id', $userId)->select('name', 'user_type')->first();
+    $name = $user->name ?? '';
+    $userType = $user->user_type ?? '';
 @endphp
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -231,13 +235,14 @@ use App\Models\User;
           <span>Activity</span>
         </a>
       </li>
-
+      @if($userType == 1)
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('master')}}">
+        <a class="nav-link collapsed" href="{{url('user')}}">
           <i class="bi bi-person"></i>
           <span>User</span>
         </a>
       </li>
+      @endif
       <li class="nav-item">
         <a class="nav-link collapsed" href="setting.html">
           <i class="bi bi-gear"></i>
@@ -274,6 +279,9 @@ use App\Models\User;
    <!-- multiselect -->
    <script src="{{ ASSETS }}/js/multiselect.js"></script>
    <script type="text/javascript" src="{{url('public/validations/common.js')}}"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
    <!-- <script src="/assets/js/bootstrap.bundal.min.js"></script> -->
 
 </body>

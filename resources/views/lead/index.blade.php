@@ -13,7 +13,7 @@
                         @csrf
                         <div class="col-md-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="leadname" name="leadname">
+                            <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <div class="col-md-3">
                             <label for="company_name" class="form-label">Company Name</label>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="phone" class="form-label">Phone</label>
-                            <input type="number" class="form-control" id="phone" name="phone">
+                            <input type="text" class="form-control" id="phone" name="phone">
                         </div>
                         <div class="col-md-3">
                             <label for="email" class="form-label">Email</label>
@@ -37,17 +37,17 @@
                           </div>
                           <div class="col-md-3">
                             <label for="lead_source" class="form-label">Lead Source</label>
-                            <select class="form-select" id="lead_source" name="lead_source">
-                                <option selected>Choose...</option>
+                            <select class="form-select" id="lead_source_id" name="lead_source_id">
+                                <option>Choose...</option>
                                 @foreach($lead_source as $source)
                                 <option value="{{$source->id}}">{{$source->lead_source_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="lead_status" class="form-label">Lead Status</label>
-                            <select class="form-select" id="leadstatus" name="leadstatus">
-                                <option selected>Choose...</option>
+                            <label for="lead_status_id" class="form-label">Lead Status</label>
+                            <select class="form-select" id="lead_status_id" name="lead_status_id">
+                                <option>Choose...</option>
                                 @foreach($lead_status as $status)
                                 <option value="{{$status->id}}">{{$status->lead_status_name}}</option>
                                 @endforeach

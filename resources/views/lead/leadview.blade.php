@@ -10,10 +10,16 @@
             <div class="row pt-3">
               <div class="col-md-4 mt-2"> <b>Lead Id : </b> </div>
               <div class="col-md-8 mt-2">{{$leads->id}}</div>
+              <div class="col-md-4 mt-2"> <b>Date :</b></div>
+              <div class="col-md-8 mt-2">{{$leads->date}}</div>
               <div class="col-md-4 mt-2"> <b>Name : </b> </div>
               <div class="col-md-8 mt-2">{{$leads->name}}</div>
+              <div class="col-md-4 mt-2"> <b>Company Name :</b></div>
+              <div class="col-md-8 mt-2">{{$leads->company_name}}</div>
               <div class="col-md-4 mt-2"> <b>Phone : </b> </div>
               <div class="col-md-8 mt-2">{{$leads->phone}}</div>
+              <div class="col-md-4 mt-2"> <b>Email : </b> </div>
+              <div class="col-md-8 mt-2">{{$leads->email}}</div>
               <div class="col-md-4 mt-2"> <b>Address : </b> </div>
               <div class="col-md-8 mt-2">{{$leads->address}}</div>
               <div class="col-md-4 mt-2"> <b>Country : </b> </div>
@@ -30,6 +36,10 @@
               <div class="col-md-8 mt-2">{{$leads->approximate_amount}}</div>
               <div class="col-md-4 mt-2"> <b>Status : </b> </div>
               <div class="col-md-8 mt-2">{{$leads->lead_status_name}}</div>
+              <div class="col-md-4 mt-2"> <b>Created By :</b></div>
+              <div class="col-md-8 mt-2">{{$leads->created_by_name}}    {{$leads->created_at->format('d-m-y h:i:s') }}</div>
+              <div class="col-md-4 mt-2"> <b>Updated By : </b> </div>
+              <div class="col-md-8 mt-2">{{$leads->updated_by_name}}   {{$leads->updated_at->format('d-m-y h:i:s') }}</div>
             </div>
             <div class=" mt-3">
               <a href="{{url('leads/add/'.Crypt::encrypt($leads->id))}}" type="submit" class="btn btn-danger"><i class="bi bi-pencil-square"></i> &nbsp;Edit Lead</a>
@@ -78,7 +88,7 @@
                       @if ($note->status == "ACTIVE" && $note->lead_id == $leads->id)
                       <td>{{$note->notes}}<br>
                         <b>{{$note->created_at}}</b></td>
-                        <td><a href="{{url('leadnote/delete/'.$note->id)}}"><i class="bi bi-trash-fill text-red"></i></a></td>
+                        <td><a href="{{url('leadnote/delete/'.$note->id)}}" onclick="return confirm('Are you sure you want to delete this note?');"><i class="bi bi-trash-fill text-red"></i></a></td>
                         @endif
 
                       </tr>

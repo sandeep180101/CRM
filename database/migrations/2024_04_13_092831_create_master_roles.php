@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('master_roles', function (Blueprint $table) {
             $table->id();
             $table->string('role_name',100);
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['0','1'])->default('0')->comment('0=>active,1=>inactive');
+
             $table->timestamps();
         });
     }

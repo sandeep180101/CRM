@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->longText('notes');
-            $table->enum('status', ['ACTIVE','INACTIVE'])->default('ACTIVE');
+            $table->enum('status', ['0','1'])->default('0')->comment('0=>active,1=>inactive');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('state_name',50);
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')->references('id')->on('master_countries');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['0','1'])->default('0')->comment('0=>active,1=>inactive');
+
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

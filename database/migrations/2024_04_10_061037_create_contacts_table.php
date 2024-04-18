@@ -19,7 +19,8 @@ class CreateContactsTable extends Migration
             $table->string('contact_email',50)->nullable();
             $table->string('contact_phone', 15)->nullable();
             $table->string('contact_address')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['0','1'])->default('0')->comment('0=>active,1=>inactive');
+
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

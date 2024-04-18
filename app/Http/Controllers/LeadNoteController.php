@@ -41,7 +41,7 @@ class LeadNoteController extends Controller
     {
         try {
             if ($id) {
-                DB::table('lead_note')->where('id', $id)->update(['status'=>'INACTIVE']);
+                DB::table('lead_note')->where('id', $id)->update(['status'=>'1']);
             }
             return redirect()->back();
         } catch (\Exception $e) {
