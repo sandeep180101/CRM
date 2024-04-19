@@ -19,6 +19,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
@@ -87,10 +89,10 @@ class User extends Authenticatable
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by'] = null;
 
-            $lead = Leads::create($data);
+            $lead = User::create($data);
             return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data saved!'];
         } else {
-            $lead = Leads::find($id);
+            $lead = User::find($id);
             if ($lead) {
                 $data['updated_by'] = $userId;
                 $data['updated_at'] = date("Y-m-d H:i:s");
@@ -111,4 +113,37 @@ class User extends Authenticatable
         }
         return false;
     }
+    
+    
+    public static function getUserViewDetails($params = []){
+        $query = DB::table('users as u');
+        $query->select("u.id", "u.name","u.email","u.phone",DB::raw("CASE WHEN u.status = 0 THEN 'Active' ELSE 'Inactive' END AS status"));
+        if(!empty($params['name'])){
+            $name = isset($params['name']) ? $params['name'] : '';
+            $query->where('u.name','LIKE','%'.$name .'%');
+        }
+        if(!empty($params['email'])){
+            $email = isset($params['email']) ? $params['email'] : '';
+            $query->where('u.email','LIKE','%'.$email .'%');
+        }
+        if(!empty($params['phone'])){
+            $phone = isset($params['phone']) ? $params['phone'] : '';
+            $query->where('u.phone','LIKE','%'.$phone .'%');
+        }
+        
+        if(!empty($params['id'])){
+            $id = isset($params['id']) ? $params['id'] : '';
+            $query->where('u.id',$id);
+        }
+        $totalCount = $query->count();
+        if(isset($params['start']) && isset($params['limit']) && !empty($params['limit'])){
+            $query->offset($params['start'])->limit($params['limit']);
+        }
+        $results = $query->get();
+        if($totalCount){
+            return array('results' => $results , 'total_count' => $totalCount);
+        }else{
+            return array('results' => '' , 'total_count' => 0);
+        }
+}
 }

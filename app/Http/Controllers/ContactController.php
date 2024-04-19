@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommonModel;
-use App\Models\contacts;
-use App\Validations\contactsValidation;
+use App\Models\contactsModel;
+use App\Validations\contactsModelValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
     //
-    protected $table = 'contacts';
+    protected $table = 'contactsModel';
 
     public function index()
     {
@@ -19,15 +19,15 @@ class ContactController extends Controller
             $data['title'] = 'Contact';
             $param = array();
             $param = array('limit' => 10, 'start' => 0);
-            $contacts = contacts::getAllContacts($param);
-            if ($contacts['total_count'] > 0) {
-                $data['contacts'] = $contacts['results'];
-                $data['total_count'] = $contacts['total_count'];
+            $contactsModel = contactsModel::getAllContacts($param);
+            if ($contactsModel['total_count'] > 0) {
+                $data['contactsModel'] = $contactsModel['results'];
+                $data['total_count'] = $contactsModel['total_count'];
             } else {
-                $data['contacts'] = '';
+                $data['contactsModel'] = '';
                 $data['total_count'] = 0;
             }
-            return view('contacts.index', $data);
+            return view('contactsModel.index', $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -37,13 +37,13 @@ class ContactController extends Controller
     {
         try {
             if ($id) {
-                $objcontacts = new contacts();
-                $data['singleData'] = $objcontacts->getSingleData($id);
+                $objcontactsModel = new contactsModel();
+                $data['singleData'] = $objcontactsModel->getSingleData($id);
             } else {
                 $data['singleData'] = '';
             }
             $data['title'] = 'contact Add';
-            return view('contacts.add', $data);
+            return view('contactsModel.add', $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -53,8 +53,8 @@ class ContactController extends Controller
         try {
             $returnData = [];
 
-            $contacts = new contactsValidation();
-            $validationResult = $contacts->validate($request->all());
+            $contactsModel = new contactsModelValidation();
+            $validationResult = $contactsModel->validate($request->all());
 
             if ($validationResult !== null) {
                 return json_encode($validationResult);
@@ -70,8 +70,8 @@ class ContactController extends Controller
                 $returnData = array('status' => 'exist', 'message' => 'Contact already exists!', 'unique_field' => $uniqueFieldValue);
                 return json_encode($returnData);
             }
-            $objcontacts = new contacts();
-            $returnData = $objcontacts->saveData($request->all());
+            $objcontactsModel = new contactsModel();
+            $returnData = $objcontactsModel->saveData($request->all());
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }
@@ -86,7 +86,7 @@ class ContactController extends Controller
     {
         try {
             if ($id) {
-                DB::table('contacts')->where('id', $id)->delete();
+                DB::table('contactsModel')->where('id', $id)->delete();
             }
             return redirect()->back();
         } catch (\Exception $e) {
@@ -109,16 +109,16 @@ class ContactController extends Controller
                 'start' => $start
             ];
 
-            $contacts = contacts::getAllContacts($params);
+            $contactsModel = contactsModel::getAllContacts($params);
 
-            if ($contacts['total_count'] > 0) {
-                $data['contacts'] = $contacts['results'];
-                $data['total_count'] = $contacts['total_count'];
-                $count = count($contacts['results']) + $start;
-                $data['message'] = "Showing " . (++$request->start) . " to " . $count . " of " . $contacts['total_count'] . " records.";
+            if ($contactsModel['total_count'] > 0) {
+                $data['contactsModel'] = $contactsModel['results'];
+                $data['total_count'] = $contactsModel['total_count'];
+                $count = count($contactsModel['results']) + $start;
+                $data['message'] = "Showing " . (++$request->start) . " to " . $count . " of " . $contactsModel['total_count'] . " records.";
                 $data['status'] = 'success';
             } else {
-                $data['contacts'] = [];
+                $data['contactsModel'] = [];
                 $data['total_count'] = 0;
                 $data['message'] = 'No records found.';
                 $data['status'] = 'success';

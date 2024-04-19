@@ -20,17 +20,20 @@
             </tr>
         </thead>
         <tbody>
+            @if (!empty($cities))
+
             @foreach ($cities as $city)
             <tr>
                 <td>{{ $city->city_name }}</td>
-                <td>{{ $city->state_id }}</td>
-                <td>{{ $city->country_id }}</td>
+                <td>{{ $city->state_name }}</td>
+                <td>{{ $city->country_name }}</td>
                 <td>{{ $city->status }}</td>
                 <td><a href="{{url('cities/add/'.Crypt::encrypt($city->id))}}"><i class="bi bi-pencil-square mx-1"></a></td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    @endif
 </div>
 </div>
 

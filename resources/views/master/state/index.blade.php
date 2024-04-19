@@ -20,16 +20,18 @@
             </tr>
         </thead>
         <tbody>
+            @if (!empty($states))
             @foreach ($states as $state)
             <tr>
                 <td>{{ $state->state_name }}</td>
-                <td>{{ $state->country_id }}</td>
+                <td>{{ $state->country_name }}</td>
                 <td>{{ $state->status }}</td>
                 <td><a href="{{url('states/add/'.Crypt::encrypt($state->id))}}"><i class="bi bi-pencil-square mx-1"></a></td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    @endif
 </div>
 </div>
 

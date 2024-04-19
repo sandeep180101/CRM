@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('phone');
             $table->string('password')->default('$2y$12$0kKZpWQdUaBPBbC8RzjWNOHKgPCTPaLM5tO3OzwczCa8qc/14qlci');
             $table->enum('user_type',['1','2'])->default('2')->comment('1=>Admin,2=>User');
-            $table->enum('status', ['0','1'])->default('0')->comment('0=>active,1=>inactive');
+            $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
             $table->string('created_by',50)->nullable();
             $table->string('updated_by',50)->nullable();
             $table->timestamps();

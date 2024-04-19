@@ -6,7 +6,7 @@ use App\Models\Cities;
 use App\Models\CommonModel;
 use App\Models\Countries;
 use App\Models\role;
-use App\Models\States;
+use App\Models\StatesModel;
 use App\Validations\stateValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -24,7 +24,7 @@ class StateController extends Controller
             $param = array();
             $param = array('limit' => 10, 'start' => 0);
             $data["countries"] = Countries::all();
-            $roles = States::getAllStates($param);
+            $roles = StatesModel::getAllStates($param);
             if ($roles['total_count'] > 0) {
                 $data['states'] = $roles['results'];
                 $data['total_count'] = $roles['total_count'];
@@ -43,8 +43,8 @@ class StateController extends Controller
         try {
             $data["countries"] = Countries::all();
             if ($id) {
-                $decryptedId = Crypt::decrypt($id);
-                $leads = new States();
+                $decryptedId = base64_decode($id);
+                $leads = new StatesModel();
                 $data['singleData'] = $leads->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
@@ -68,7 +68,7 @@ class StateController extends Controller
                 return json_encode($validationResult);
             }
 
-            $objroles = new States();
+            $objroles = new StatesModel();
             $returnData = $objroles->saveData($request->all());
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];

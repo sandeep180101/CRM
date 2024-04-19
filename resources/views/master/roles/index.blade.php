@@ -17,6 +17,8 @@
             </tr>
         </thead>
         <tbody>
+            @if (!empty($roles))
+
             @foreach ($roles as $role)
             <tr>
                 <td>{{ $role->role_name }}</td>
@@ -26,6 +28,7 @@
             @endforeach
         </tbody>
     </table>
+    @endif
 </div>
 </div>
 

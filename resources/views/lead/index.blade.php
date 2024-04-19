@@ -9,8 +9,9 @@
             <div class="card">
                 <div class="card-body">
                     <!-- Multi Columns Form -->
-                    <form class="row g-3 pt-3" id="lead_search">
-                        @csrf
+                    <form class="row g-3 pt-3" id="lead_search_id">
+                        {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+@csrf
                         <div class="col-md-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name">
@@ -36,25 +37,25 @@
                             <input type="date" class="form-control" id="tdate" name="tdate">
                           </div>
                           <div class="col-md-3">
-                            <label for="lead_source" class="form-label">Lead Source</label>
-                            <select class="form-select" id="lead_source_id" name="lead_source_id">
-                                <option>Choose...</option>
-                                @foreach($lead_source as $source)
-                                <option value="{{$source->id}}">{{$source->lead_source_name}}</option>
+                            <label for="lead_source_id" class="form-label">Lead Source</label>
+                            <select name="lead_source_id" id="lead_source_id" aria-label="Select source" data-control="select2" class="form-select mb-2">
+                                <option value="">Select</option>
+                                @foreach($lead_source['results'] as $source)
+                                    <option value="{{$source->id}}">{{ $source->lead_source_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="lead_status_id" class="form-label">Lead Status</label>
                             <select class="form-select" id="lead_status_id" name="lead_status_id">
-                                <option>Choose...</option>
-                                @foreach($lead_status as $status)
+                                <option value="">Select</option>
+                                @foreach($lead_status['results'] as $status)
                                 <option value="{{$status->id}}">{{$status->lead_status_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary" id="searchButton"><i class="bi bi-search"></i> Search</button>
+                            <button type="button" class="btn btn-primary" id="lead_search"><i class="bi bi-search"></i> Search</button>
                             <a href="{{url('leads/add')}}" class="btn btn-success"><i class="bi bi-plus"></i> Add Lead</a>
                         </div>
                     </form>
@@ -78,8 +79,10 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            @if (!empty($leads['results']))
+
                             <tbody id="table-content">
-                                @foreach ($leads as $lead)
+                                @foreach ($leads['results'] as $lead)
                                 <tr>
                                     <td>{{ $lead->id }}</td>
                                     <td>{{ $lead->date}}</td>
@@ -92,42 +95,89 @@
                                     <td>
                                         <a href="{{ url('leads/add/' . Crypt::encrypt($lead->id)) }}"><i class="bi bi-pencil-square mx-1"></i></a>&nbsp;&nbsp;
                                         <a href="{{url('leads/view/'.Crypt::encrypt($lead->id))}}"><i class="text-black bi bi-eye"></i></a>&nbsp;&nbsp;
-                                        <a href="{{url('leads/delete/'.Crypt::encrypt($lead->id))}}"><i class="text-black bi bi-trash3"></i></a>
-
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="datatable-bottom">
-                            <nav class="datatable-pagination" aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    @if ($leads->onFirstPage())
-                                        <li class="page-item disabled" aria-disabled="true">
-                                            <span class="page-link" aria-hidden="true">&laquo; Previous</span>
-                                        </li>
-                                    @else
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $leads->previousPageUrl() }}" rel="prev" aria-label="Previous">&laquo; Previous</a>
-                                        </li>
-                                    @endif
-                                    @for ($i = 1; $i <= $leads->lastPage(); $i++)
-                                        <li class="page-item {{ ($i == $leads->currentPage()) ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $leads->url($i) }}">{{ $i }}</a>
-                                        </li>
-                                    @endfor
-                                    @if ($leads->hasMorePages())
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $leads->nextPageUrl() }}" rel="next" aria-label="Next">Next &raquo;</a>
-                                        </li>
-                                    @else
-                                        <li class="page-item disabled" aria-disabled="true">
-                                            <span class="page-link" aria-hidden="true">Next &raquo;</span>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </nav>
-                        </div>
+                        @endif
+
+                        <?php if(count($leads)){?>
+                            <div class="row">
+                               <?php  ?>
+                               <div class="col-lg-9 col-md-6">
+                                   <div class="row form-group">
+                                       <div class="col-lg-12 col-md-6">
+                                           <label class="text-muted mt-1 m-b-0" id="showing">
+                                               Showing 1 to
+                                               <?php echo $limit_upto = ($leads['total_count'] >
+                                               10) ? 10 : $leads['total_count'];?> of
+                                               <?php echo $leads['total_count'];?>
+                                               records.
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-lg-3 col-md-6">
+                                   <div id="pagination" class="float-right">
+                                       <?php $limit = count($leads); $remaining = $leads['total_count']%$limit;$total_page = ($remaining > 0) ? (int)($leads['total_count']/$limit)+1 : (int)($leads['total_count']/$limit); ?>
+                                       <ul class="pagination justify-content-center">
+                                           <li class="page-item strt filter" data-limit="<?php echo $limit;?>" data-start="0"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                                           <li class="page-item prev filter" data-limit="<?php echo $limit;?>" data-start="0">
+                                               <a class="page-link" href="javascript:void(0);">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-left" viewBox="0 0 16 16">
+                                                       <path fill-rule="evenodd" d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z" />
+                                                   </svg>
+                                               </a>
+                                           </li>
+                                           <li class="page-item pageActive"><a class="page-link disp" href="javascript:void(0);">1</a></li>
+                                           <li class="page-item next filter" data-limit="<?php echo $limit;?>" data-start="<?php echo ($total_page > 1) ? $limit : 0;?>">
+                                               <a class="page-link" href="javascript:;">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                                                       <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
+                                                   </svg>
+                                               </a>
+                                           </li>
+                                           <li class="page-item last filter" data-limit="<?php echo $limit;?>" data-start="<?php echo ($total_page-1)*$limit;?>"><a class="page-link" href="javascript:;">Next</a></li>
+                                       </ul>
+                                   </div>
+                               </div>
+                           </div>
+                           <?php } else{?>
+                           <div class="row">
+                               <div class="col-lg-9 col-md-6">
+                                   <div class="row form-group">
+                                       <div class="col-lg-12 col-md-6">
+                                           <label class="text-muted mt-1 m-b-0" id="showing">
+                                           </label>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-lg-3 col-md-6">
+                                   <div id="pagination" class="float-right">
+                                       <ul class="pagination justify-content-center">
+                                           <li class="page-item strt filter" data-limit="" data-start="0"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                                           <li class="page-item prev filter" data-limit="" data-start="0">
+                                               <a class="page-link" href="javascript:void(0);">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-left" viewBox="0 0 16 16">
+                                                       <path fill-rule="evenodd" d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z" />
+                                                   </svg>
+                                               </a>
+                                           </li>
+                                           <li class="page-item pageActive"><a class="page-link disp" href="javascript:void(0);"></a></li>
+                                           <li class="page-item next filter" data-limit="" data-start="">
+                                               <a class="page-link" href="javascript:;">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                                                       <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
+                                                   </svg>
+                                               </a>
+                                           </li>
+                                           <li class="page-item last filter" data-limit="" data-start=""><a class="page-link" href="javascript:;">Next</a></li>
+                                       </ul>
+                                   </div>
+                               </div>
+                           </div>
+                           <?php } ?>
                                            
            
                          </div>
@@ -136,6 +186,8 @@
         </div>
     </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
 <script type="text/javascript" src="/assets/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript"> var SITE_URL = "<?php echo config('constants.SITE_URL');?>/";</script>
 <script type="text/javascript"> var ASSETS = "<?php echo config('constants.ASSETS');?>/";</script>  

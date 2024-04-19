@@ -65,8 +65,11 @@ class role extends Model
         }
         
         if (!empty($params['role_name'])) {
-                $query->where('role_name', 'like', '%' . $params['contact_name'] . '%');
+                $query->where('role_name', 'like', '%' . $params['role_name'] . '%');
         }
+        if (!empty($params['role_name'])) {
+            $query->where('role_name' ,$params['role_name'] );
+    }
         if (isset($params['status']) && in_array($params['status'], [0, 1])) {
             $query->where('status', $params['status']);
         }

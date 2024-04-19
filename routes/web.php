@@ -9,6 +9,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LeadNoteController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\PartyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
@@ -46,14 +47,21 @@ Route::get('leads', [LeadController::class, 'index']);
 Route::get('leads/add/{id?}', [LeadController::class, 'add']); 
 Route::get('leads/view/{id}', [LeadController::class, 'view']); 
 Route::post('leads/save', [LeadController::class, 'save']);
-Route::any('leads/delete/{id}', [LeadController::class, 'destroy']);
 Route::any('leads/filter', [LeadController::class, 'leadFilter']);
 
 Route::post('leadnote/view/save', [LeadNoteController::class, 'save']);
-Route::any('leadnote/delete/{id}', [LeadNoteController::class, 'destroy']);
+Route::get('leadnote/delete/{id}', [LeadNoteController::class, 'destroy']);
+Route::post('leadnote/delete/{id}', [LeadNoteController::class, 'destroy']);
 
-Route::get('user', [UserController::class, 'add']); 
-Route::post('user', [UserController::class, 'save']); 
+
+Route::get('party', [PartyController::class, 'index']); 
+Route::get('party/add/{id?}', [PartyController::class, 'add']); 
+Route::get('party/view/{id}', [PartyController::class, 'view']); 
+Route::post('party/save', [PartyController::class, 'save']);
+Route::any('party/filter', [PartyController::class, 'partyFilter']);
+
+Route::get('user/{id?}', [UserController::class, 'add']); 
+Route::post('user/save', [UserController::class, 'save']); 
 
 
 Route::get('master', [MasterController::class, 'index']); 

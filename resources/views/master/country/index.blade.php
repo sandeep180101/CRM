@@ -18,6 +18,8 @@
             </tr>
         </thead>
         <tbody>
+            @if (!empty($countries))
+
             @foreach ($countries as $country)
             <tr>
                 <td>{{ $country->country_name }}</td>
@@ -27,6 +29,7 @@
             @endforeach
         </tbody>
     </table>
+    @endif
 </div>
 </div>
 

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cities;
+use App\Models\CityModel;
 use App\Models\Countries;
 use App\Models\LeadNote;
 use App\Models\Leads;
 use App\Models\LeadSourceStatus;
 use App\Models\Leadstatus;
-use App\Models\States;
+use App\Models\StatesModel;
 use App\Validations\LeadsValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 
 class LeadController extends Controller
 {
@@ -23,8 +22,11 @@ class LeadController extends Controller
     {
         try {
             $data['title'] = "Leads Detail";
-            $param = array('start' => 0, 'limit' => 10 , 'group_by' => 'group_by');
+            $param = array('start' => 0);
+            $data["lead_source"] = LeadSourceStatus::getAllLeadSource($param);
+            $param = array('start' => 0, 'limit' => 10);
             $data["leads"] = Leads::getAllLeads($param);
+            $data["lead_status"] = Leadstatus::getAllLeadStatus($param);
             return view("lead.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -35,9 +37,11 @@ class LeadController extends Controller
     {
         try {
             $decryptedId = Crypt::decrypt($id);
+            $param = array('id' => $decryptedId);
             $data["title"] = "Lead View";
-            $data["leadnotes"] = LeadNote::all();
-            $data["leads"] = (new Leads())->join($decryptedId);
+            $data["leadnotes"] = LeadNote::getLeadNote($param);
+            $leads = Leads::getAllLeads($param);
+            $data["leads"] = $leads['results'];
 
             return view("lead.leadview", $data);
         } catch (\Exception $e) {
@@ -49,11 +53,12 @@ class LeadController extends Controller
     {
         try {
             $data["title"] = "Add Lead";
-            $data["cities"] = Cities::all();
-            $data["countries"] = Countries::all();
-            $data["states"] = States::all();
-            $data["leadstatus"] = Leadstatus::all();
-            $data["leadsourcestatus"] = LeadSourceStatus::all();
+            $data["cities"] = CityModel::getAllCityModel();
+            $data["countries"] = Countries::getAllCountry();
+            $data["states"] = StatesModel::getAllStates();
+
+            $data["leadstatus"] = Leadstatus::getAllLeadStatus();
+            $data["leadsourcestatus"] = LeadSourceStatus::getAllLeadSource();
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
                 $leads = new Leads();
@@ -90,70 +95,48 @@ class LeadController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id)
+    public static function leadFilter(Request $request)
     {
         try {
-            if ($id) {
-                DB::table('leads')->where('id', $id)->delete();
+            $limit = $request->limit ? $request->limit : 10;
+            $start = $request->start ? $request->start : 0;
+            $params = array(
+                'name' => $request->name,
+                'company_name' => $request->company_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'fdate' => $request->fdate,
+                'tdate' => $request->tdate,
+                'lead_status_id' => $request->lead_status_id,
+                'lead_source_id' => $request->lead_source_id,
+                'start' => $start,
+                'limit' => $limit,
+            );
+
+            if (count(array_filter($params)) > 0) {
+                $leads = Leads::getAllLeads($params);
             }
-            return redirect()->back();
+            $data = [];
+
+            if ($leads['total_count'] > 0) {
+                $param = array('start' => 0);
+                $leadSources = LeadSourceStatus::getAllLeadSource($param);
+                $leadStatus = Leadstatus::getAllLeadStatus($param);
+                $data['leads'] = $leads['results'];
+                $data['total_count'] = $leads['total_count'];
+                $count = count($leads['results']);
+                $data['status'] = 'success';
+            } else {
+                $data['message'] = 'No records found.';
+                $data['status'] = 'success';
+            }
+
+            return response()->json($data);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            $returnData = ['status' => 'error', 'message' => $e->getMessage()];
+            return response()->json($returnData, 500);
         }
     }
-
-    public static function leadFilter(Request $request)
-{
-    try {
-        $params = array(
-            'name' => $request->name,
-            'company_name' => $request->company_name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'fdate' => $request->fdate,
-            'tdate' => $request->tdate,
-            'lead_status_id' => ($request->lead_status_id == 'Choose...') ? null : $request->lead_status_id,
-            'lead_source_id' => ($request->lead_source_id == 'Choose...') ? null : $request->lead_source_id,
-        );
-
-        if (count(array_filter($params)) > 0) {
-            $leads = Leads::getLeadDetails($params);
-        }
-
-        $data = [];
-
-        if ($leads['total_count'] > 0) {
-            $leadSources = LeadSourceStatus::pluck('lead_source_name', 'id');
-            $leadStatus = Leadstatus::pluck('lead_status_name', 'id');
-            $data['leads'] = $leads['results'];
-            foreach ($data['leads'] as &$lead) {
-                if ($lead->lead_source_id !== null && isset($leadSources[$lead->lead_source_id])) {
-                    $lead->lead_source_name = $leadSources[$lead->lead_source_id];
-                } else {
-                    $lead->lead_source_name = null;
-                }
-            
-                if ($lead->lead_status_id !== null && isset($leadStatus[$lead->lead_status_id])) {
-                    $lead->lead_status_name = $leadStatus[$lead->lead_status_id];
-                } else {
-                    $lead->lead_status_name = null;
-                }
-            }
-            
-            $data['total_count'] = $leads['total_count'];
-            $count = count($leads['results']);
-            $data['status'] = 'success';
-        } else {
-            $data['message'] = 'No records found.';
-            $data['status'] = 'success';
-        }
-
-        return response()->json($data);
-    } catch (\Exception $e) {
-        $returnData = ['status' => 'error', 'message' => $e->getMessage()];
-        return response()->json($returnData, 500);
-    }
-}
 
 
 }

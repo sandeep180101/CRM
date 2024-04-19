@@ -72,7 +72,7 @@ class ForgotPasswordController extends Controller
     public function passwordUpdate(Request $request, $token)
     {
         try {
-            $decryptedToken = Crypt::decryptString($token);
+            $decryptedToken = base64_decodeString($token);
             [$userId, $timestamp] = explode('-', $decryptedToken);
 
             if (strtotime("-24 hours") > $timestamp) {

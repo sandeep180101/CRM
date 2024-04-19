@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class States extends Model
+class StatesModel extends Model
 {
     use HasFactory;
     protected $table = 'master_states';
@@ -33,13 +33,6 @@ class States extends Model
         $id = isset($post['id']) ? (int) $post['id'] : 0;
         unset($post['id']);
 
-        $countryStateCityResult = new CommonModel();
-        $validationResult = $countryStateCityResult->validateCountryStateCity($post);
-
-        if ($validationResult['status'] === 'error') {
-            return $validationResult;
-        }
-
         $data = array_intersect_key($post, array_flip($saveFields));
         $data['updated_at'] = date("Y-m-d H:i:s");
 
@@ -48,10 +41,10 @@ class States extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by'] = null;
 
-            $state = States::create($data);
+            $state = StatesModel::create($data);
             return ['id' => $state->id, 'status' => 'success', 'message' => 'State data saved!'];
         } else {
-            $state = States::find($id);
+            $state = StatesModel::find($id);
             if ($state) {
                 $data['updated_by'] = 1;
                 $state->update($data);
@@ -71,32 +64,35 @@ class States extends Model
         return false;
     }
 
-    public static function getAllStates($params = [])
-    {
-
-        $query = DB::table('master_states');
-        $query->select('id', 'state_name', 'country_id', DB::raw("CASE WHEN status = 0 THEN 'Active' ELSE 'Inactive' END AS status"));
-        if (isset($params['id'])) {
-            $id = isset($params['id']) ? $params['id'] : '';
-            $query->where('id', $id);
+    public static function getAllStates($params=[]){
+        $query = DB::table('master_states as s');
+        $query->leftjoin('master_countries as co','s.country_id','=','co.id');
+        $query->select("s.id", "s.state_name","co.country_name",DB::raw("CASE WHEN s.status = 0 THEN 'Active' ELSE 'Inactive' END AS status"));
+        if(isset($params['state_id'])){
+            $state_id = isset($param['state_id']) ? $params['state_id'] : '';
+            if($state_id){
+                $query->where('s.id',$state_id);
+            }
         }
-
         if (!empty($params['state_name'])) {
             $query->where('state_name', 'like', '%' . $params['state_name'] . '%');
-        }
-        if (!empty($params['country_id'])) {
-            $query->where('country_id', 'like', '%' . $params['country_id'] . '%');
+    }
+        if(isset($params['country_id'])){
+            $country_id = isset($params['co.country_id']) ? $params['country_id'] : '';
+            if($country_id){
+                $query->where('co.id',$country_id);
+            }
         }
         if (isset($params['status']) && in_array($params['status'], [0, 1])) {
-            $query->where('status', $params['status']);
+            $query->where('s.status', $params['status']);
         }
-
         $totalCount = $query->count();
         if (isset($params['start']) && isset($params['limit']) && !empty($params['limit'])) {
             $query->offset($params['start'])->limit($params['limit']);
-        }
-
-        $query->orderBy('id', 'ASC');
+        }   
+        $query->orderBy('s.state_name', 'ASC');
+    //    $lastQuery = $query->toSql();
+    //     echo $lastQuery; exit;
         $results = $query->get();
         if ($totalCount) {
             return ['results' => $results, 'total_count' => $totalCount];

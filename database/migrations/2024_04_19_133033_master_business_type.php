@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lead_note', function (Blueprint $table) {
+        //
+        Schema::create("master_business_type", function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id')->on('leads');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->longText('notes');
-            $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
+            $table->string("business_name");
+            $table->tinyInteger("status")->default(0)->comment('0=>Active , 1=>Inactive');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lead_note');
+        //
     }
 };

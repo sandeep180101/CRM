@@ -41,25 +41,7 @@ class LeadNote extends Model
 
     }
 
-    public function join($id){
-        $lead = Leads::select(
-            'leads.*',
-            'master_countries.country_name',
-            'master_states.state_name',
-            'master_cities.city_name',
-            'master_lead_status.lead_status_name',
-            'master_lead_source.lead_source_name'
-        )
-        ->leftJoin('master_countries', 'leads.country_id', '=', 'master_countries.id')
-        ->leftJoin('master_states', 'leads.state_id', '=', 'master_states.id')
-        ->leftJoin('master_cities', 'leads.city_id', '=', 'master_cities.id')
-        ->leftJoin('master_lead_status', 'leads.lead_status_id', '=', 'master_lead_status.id')
-        ->leftJoin('master_lead_source', 'leads.lead_source_id', '=', 'master_lead_source.id')
-        ->where('leads.id', $id)
-        ->first();
-    
-        return $lead;
-    }
+
     public function getSingleData($id)
     {
         $id = (int) $id;
@@ -70,32 +52,26 @@ class LeadNote extends Model
         return false;
     }
 
-    public static function getLeadDetails($params = [])
+    public static function getLeadNote($params = [])
     {
-        $query = DB::table('leads');
-        $query->select("id", 'name', "company_name", 'phone', 'email', 'lead_status');
-        if (isset($params['id'])) {
-            $id = isset($params['id']) ? $params['id'] : '';
-            $query->where('id', $id);
+        $query = DB::table('lead_note as ln');
+        $query->select("ln.id","ln.lead_id",'ln.status', 'ln.user_id','u.name',"ln.created_at", "notes");
+        $query->join('leads as l','ln.lead_id','=','l.id');
+        $query->join('users as u','ln.user_id','=','u.id');
+        if (isset($params['ln.id'])) {
+            $id = isset($params['ln.id']) ? $params['ln.id'] : '';
+            $query->where('ln.id', $id);
         }
 
-        if (!empty($params['company_name'])) {
-            $query->where('company_name', 'like', '%' . $params['company_name'] . '%');
+        if (!empty($params['lead_id'])) {
+            $query->where('ln.lead_id', 'like', '%' . $params['lead_id'] . '%');
         }
-        if (!empty($params['phone'])) {
-            $query->where('phone', 'like', '%' . $params['phone'] . '%');
+        if (!empty($params['user_id'])) {
+            $query->where('u.user_id', 'like', '%' . $params['user_id'] . '%');
         }
-
-        if (!empty($params['email'])) {
-            $query->where('email', 'like', '%' . $params['email'] . '%');
-        }
-        if (!empty($params['lead_status'])) {
-            $query->where('lead_status', 'like', '%' . $params['lead_status'] . '%');
-        }
-
 
         if (isset($params['status']) && in_array($params['status'], [0, 1])) {
-            $query->where('c.status', $params['status']);
+            $query->where('ln.status', $params['status']);
         }
 
         $totalCount = $query->count();

@@ -8,20 +8,20 @@
         <div class="card">
           <div class="card-body mt-3">
             <!-- Vertical Form -->
-            <form class="row g-3">
+            <form class="row g-3" id="user_form">
                 <input type = "hidden" name = "_token" value = '<?php echo csrf_token(); ?>'>
                 <input type="text" class="form-control" id="id" name="id" value="{{isset($singleData['id']) ? $singleData['id'] : ''}}" hidden>
               <div class="col-12">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" value="{{isset($singleData['name']) ? $singleData['name'] : ''}}">
+                <input type="text" class="form-control" id="name" name="name" value="{{isset($singleData['name']) ? $singleData['name'] : ''}}">
               </div>
               <div class="col-12">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" value="{{isset($singleData['email']) ? $singleData['email'] : ''}}">
+                <input type="email" class="form-control" id="email" name="email" value="{{isset($singleData['email']) ? $singleData['email'] : ''}}">
               </div>
               <div class="col-12">
                 <label for="phone" class="form-label">Phone No</label>
-                <input type="number" class="form-control" id="phone" value="{{isset($singleData['phone']) ? $singleData['phone'] : ''}}">
+                <input type="number" class="form-control" id="phone" name="phone" value="{{isset($singleData['phone']) ? $singleData['phone'] : ''}}">
               </div>
               <div class="col-md-12">
                 <label for="status" class="form-label">Status</label>
@@ -51,43 +51,18 @@
                   <th scope="col">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody>   
                 <tr>
-                  <td>Brandon Jacob</td>
-                  <td>Designer@gmail.com</td>
-                  <td>285465821452</td>
-                  <td>Active</td>
-                  <td> <a href="add-lead.html"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
+                  @foreach ($users as $user)
+                      
+                  <td>{{ $user->name}}</td>
+                  <td>{{ $user->email}}</td>
+                  <td>{{ $user->phone}}</td>
+                  <td>{{ $user->status}}</td>
+                  <td> <a href="{{url('user/'. Crypt::encrypt($user->id))}}"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
                 </tr>
-                <tr>
-                  <td>Brandon Jacob</td>
-                  <td>Designer@gmail.com</td>
-                  <td>285465821452</td>
-                  <td>Active</td>
-                  <td> <a href="add-lead.html"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
-                </tr>
-                <tr>
-                  <td>Brandon Jacob</td>
-                  <td>Designer@gmail.com</td>
-                  <td>285465821452</td>
-                  <td>Active</td>
-                  <td> <a href="add-lead.html"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
-                </tr>
-                <tr>
-                  <td>Brandon Jacob</td>
-                  <td>Designer@gmail.com</td>
-                  <td>285465821452</td>
-                  <td>Active</td>
-                  <td> <a href="add-lead.html"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
-                </tr>
-                <tr>
-                  <td>Brandon Jacob</td>
-                  <td>Designer@gmail.com</td>
-                  <td>285465821452</td>
-                  <td>Active</td>
-                  <td> <a href="add-lead.html"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
-                </tr>
-            
+                @endforeach
+
               </tbody>
             </table>
           </div>
@@ -96,4 +71,8 @@
     </div>
   </section>
 
+  <script type="text/javascript" src="/assets/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript"> var SITE_URL = "<?php echo config('constants.SITE_URL');?>/";</script>
+  <script type="text/javascript"> var ASSETS = "<?php echo config('constants.ASSETS');?>/";</script>  
+  <script type="text/javascript" src="{{url('public/validations/user.js')}}"></script>
 @endsection

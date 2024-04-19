@@ -11,12 +11,23 @@ use App\Validations\userValidation;
 class UserController extends Controller
 {
     //
+
+
     public function add(Request $request,$id=null)
     {
         try {
-            $data["title"] = "Add Lead";
+            $data["title"] = "Add User";
+            $param = array('limit' => 10 , 'start' => 0);
+        $users = User::getUserViewDetails($param);
+        if($users['total_count'] > 0){
+            $data['users'] = $users['results'];
+            $data['total_count'] = $users['total_count'];
+        }else{
+            $data['users']  = [];
+            $data['total_count'] = 0;
+        }
             if ($id) {
-                $decryptedId = crypt::decrypt($id);
+                $decryptedId = Crypt::decrypt($id);
                 $users = new User();
                 $data['singleData'] = $users->getSingleData($decryptedId);
             } else {
@@ -38,6 +49,7 @@ class UserController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
+
             $objusers = new User();
             $returnData = $objusers->saveData($request->all());
             if (count($returnData) <= 0) {

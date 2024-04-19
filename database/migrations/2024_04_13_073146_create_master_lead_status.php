@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('master_lead_status', function (Blueprint $table) {
             $table->id();
             $table->string('lead_status_name',100);
+            $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
