@@ -68,20 +68,12 @@ Route::post('user/save', [UserController::class, 'save']);
 Route::get('master', [MasterController::class, 'index']); 
 
 
-Route::get('roles', [RoleController::class, 'index']); 
-Route::get('roles/add/{id?}', [RoleController::class, 'add']); 
-Route::post('roles/save', [RoleController::class, 'save']);  
-
-Route::get('cities', [CityController::class, 'index']); 
 Route::get('cities/add/{id?}', [CityController::class, 'add']); 
 Route::post('cities/save', [CityController::class, 'save']);
 
-Route::get('states', [StateController::class, 'index']); 
 Route::get('states/add/{id?}', [StateController::class, 'add']); 
 Route::post('states/save', [StateController::class, 'save']);
 
-
-Route::get('countries', [CountryController::class, 'index']); 
 Route::get('countries/add/{id?}', [CountryController::class, 'add']); 
 Route::post('countries/save', [CountryController::class, 'save']);
 

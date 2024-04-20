@@ -4,7 +4,7 @@
 
 <section class="section">
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="card">
           <div class="card-body mt-3">
             <!-- Vertical Form -->
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-8">
         <div class="card">
           <div class="card-body pt-3">
             <table class="table table-bordered">

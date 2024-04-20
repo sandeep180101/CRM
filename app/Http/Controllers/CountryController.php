@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CommonModel;
 use App\Models\Countries;
 use App\Validations\countryValidation;
 use Illuminate\Http\Request;
@@ -13,70 +12,52 @@ class CountryController extends Controller
     //
     protected $table = 'master_countries';
 
-    public function index(){
-        try{
-        $data['title'] = 'Countries';
-        $param = array();
-        $param = array('limit' => 10 , 'start' => 0);
+    public function add(Request $request,$id=null)
+    {
+        try {
+            $data["title"] = "Add User";
+            $param = array('limit' => 10 , 'start' => 0);
         $countries = Countries::getAllCountry($param);
-        if($countries['totalCount']>0){
+        if($countries['totalCount'] > 0){
             $data['countries'] = $countries['results'];
             $data['totalCount'] = $countries['totalCount'];
         }else{
-            $data['countries'] = '';
+            $data['countries']  = [];
             $data['totalCount'] = 0;
         }
-        return view('master.country.index',$data);
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
-
-    }
-
-    public function add(Request $request,$id = null){
-        try{
-        if ($id) {
+            if ($id) {
                 $decryptedId = Crypt::decrypt($id);
-                $leads = new Countries();
-                $data['singleData'] = $leads->getSingleData($decryptedId);
+                $countries = new Countries();
+                $data['singleData'] = $countries->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
             }
-        $data['title'] = 'Country Add';
-        return view('master.country.index',$data);
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
-
-    }
-    public function save(Request $request){
-        try{
-        $country = new countryValidation();
-        $validationResult = $country->validate($request->all());
-
-        if ($validationResult !== null) {
-            return json_encode($validationResult);
+            return view("master.country.index", $data);
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
-
-        $objCommon = new CommonModel;
-        $uniqueFieldValue = array(
-            'country_name' => $request->country_name,
-        );
-        
-        $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
-            if ($uniqueCount > 0) {
-                $returnData = array('status' => 'exist', 'message' => 'This country already exists!', 'unique_field' => $uniqueFieldValue);
-                return json_encode($returnData);
-        	}
-        $objroles = new Countries(); 
-        $returnData = $objroles->saveData($request->all());
-        if (count($returnData) <= 0) {
-            $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
-        }
-
-        return json_encode($returnData);
-    } catch (\Exception $e) {
-        return $e->getMessage();
     }
+    public function save(Request $request)
+    {
+        try {
+            $returnData = [];
+
+            $countries = new countryValidation();
+            $validationResult = $countries->validate($request->all());
+
+            if ($validationResult !== null) {
+                return json_encode($validationResult);
+            }
+
+            $objcountries = new Countries();
+            $returnData = $objcountries->saveData($request->all());
+            if (count($returnData) <= 0) {
+                $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
+            }
+
+            return json_encode($returnData);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

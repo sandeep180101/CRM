@@ -2,74 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cities;
-use App\Models\CommonModel;
-use App\Models\Countries;
-use App\Models\role;
 use App\Models\StatesModel;
 use App\Validations\stateValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Http\Response;
 
 class StateController extends Controller
 {
     //
     protected $table = 'master_states';
 
-    public function index()
+    public function add(Request $request,$id=null)
     {
         try {
-            $data['title'] = 'States';
-            $param = array();
-            $param = array('limit' => 10, 'start' => 0);
-            $data["countries"] = Countries::all();
-            $roles = StatesModel::getAllStates($param);
-            if ($roles['totalCount'] > 0) {
-                $data['states'] = $roles['results'];
-                $data['totalCount'] = $roles['totalCount'];
-            } else {
-                $data['states'] = '';
-                $data['totalCount'] = 0;
-            }
-            return view('master.state.index', $data);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            $data["title"] = "Add User";
+            $param = array('limit' => 10 , 'start' => 0);
+        $states = StatesModel::getAllStates($param);
+        if($states['totalCount'] > 0){
+            $data['states'] = $states['results'];
+            $data['totalCount'] = $states['totalCount'];
+        }else{
+            $data['states']  = [];
+            $data['totalCount'] = 0;
         }
-    }
-
-    public function add(Request $request, $id = null)
-    {
-        try {
-            $data["countries"] = Countries::all();
             if ($id) {
-                $decryptedId = base64_decode($id);
-                $leads = new StatesModel();
-                $data['singleData'] = $leads->getSingleData($decryptedId);
+                $decryptedId = Crypt::decrypt($id);
+                $states = new StatesModel();
+                $data['singleData'] = $states->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
             }
-            $data['title'] = 'State Add';
-            return view('master.state.add', $data);
+            return view("master.state.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
     public function save(Request $request)
     {
         try {
             $returnData = [];
 
-            $roles = new stateValidation();
-            $validationResult = $roles->validate($request->all());
+            $states = new stateValidation();
+            $validationResult = $states->validate($request->all());
 
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
 
-            $objroles = new StatesModel();
-            $returnData = $objroles->saveData($request->all());
+            $objstates = new StatesModel();
+            $returnData = $objstates->saveData($request->all());
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }

@@ -4,7 +4,7 @@
 
 <section class="section">
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="card">
           <div class="card-body mt-3">
             <!-- Vertical Form -->
@@ -12,7 +12,7 @@
                 <input type = "hidden" name = "_token" value = '<?php echo csrf_token(); ?>'>
                 <input type="text" class="form-control" id="id" name="id" value="{{isset($singleData['id']) ? $singleData['id'] : ''}}" hidden>
               <div class="col-12">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label">Country</label>
                 <input type="text" class="form-control" id="country_name" name="country_name" value="{{isset($singleData['country_name']) ? $singleData['country_name'] : ''}}">
               </div>
               <div class="col-md-12">
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-8">
         <div class="card">
           <div class="card-body pt-3">
             <table class="table table-bordered">

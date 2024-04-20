@@ -16,60 +16,45 @@ class CityController extends Controller
     //
     protected $table = 'master_cities';
 
-    public function index()
+    public function add(Request $request,$id=null)
     {
         try {
-            $data['title'] = 'CityModel';
-            $param = array();
-            $param = array('limit' => 10, 'start' => 0);
-            $roles = CityModel::getAllCityModel($param);
-            if ($roles['totalCount'] > 0) {
-                $data['cities'] = $roles['results'];
-                $data['totalCount'] = $roles['totalCount'];
-            } else {
-                $data['cities'] = '';
-                $data['totalCount'] = 0;
-            }
-            return view('master.city.index', $data);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            $data["title"] = "Add City";
+            $param = array('limit' => 10 , 'start' => 0);
+        $cities = CityModel::getAllCityModel($param);
+        if($cities['totalCount'] > 0){
+            $data['cities'] = $cities['results'];
+            $data['totalCount'] = $cities['totalCount'];
+        }else{
+            $data['cities']  = [];
+            $data['totalCount'] = 0;
         }
-
-    }
-
-    public function add(Request $request, $id = null)
-    {
-        try {
-            $data["countries"] = Countries::all();
-            $data["states"] = StatesModel::all();
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
-                $leads = new CityModel();
-                $data['singleData'] = $leads->getSingleData($decryptedId);
+                $cities = new CityModel();
+                $data['singleData'] = $cities->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
             }
-            $data['title'] = 'City Add';
-            return view('master.city.add', $data);
+            return view("master.city.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
     public function save(Request $request)
     {
         try {
             $returnData = [];
 
-            $roles = new cityValidation();
-            $validationResult = $roles->validate($request->all());
+            $cities = new cityValidation();
+            $validationResult = $cities->validate($request->all());
 
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-            
-            $objroles = new CityModel();
-            $returnData = $objroles->saveData($request->all());
+
+            $objcities = new CityModel();
+            $returnData = $objcities->saveData($request->all());
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }
