@@ -35,7 +35,11 @@ class Leads extends Model
         if ($id == 0) {
             $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
+<<<<<<< HEAD
             $data['updated_by_id'] = null;
+=======
+            $data['updated_by'] = null;
+>>>>>>> c058c00d4125f08aef8af32960b9b229dd14dc70
             $data['updated_at'] = null;
 
             $lead = Leads::create($data);

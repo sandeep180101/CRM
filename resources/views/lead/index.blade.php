@@ -40,9 +40,15 @@
                             <label for="lead_source_id" class="form-label">Lead Source</label>
                             <select name="lead_source_id" id="lead_source_id" aria-label="Select a Language" data-control="select2" data-placeholder="Choose..." class="form-select mb-2">
                                 <option value="">Select</option>
+<<<<<<< HEAD
                                 @foreach($lead_source as $source)
+=======
+                                @if(!empty($lead_source['results']))
+                                @foreach($lead_source['results'] as $source)
+>>>>>>> c058c00d4125f08aef8af32960b9b229dd14dc70
                                     <option value="{{$source->id}}">{{ $source->lead_source_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">

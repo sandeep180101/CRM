@@ -15,10 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('role_name',100);
             $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
+<<<<<<< HEAD
             $table->unsignedBigInteger('created_by_id')->nullable();
             $table->unsignedBigInteger('updated_by_id')->nullable();
             $table->foreign('created_by_id')->references('id')->on('users');
             $table->foreign('updated_by_id')->references('id')->on('users');
+=======
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+>>>>>>> c058c00d4125f08aef8af32960b9b229dd14dc70
             $table->timestamps();
             $table->index([
                 'role_name',
