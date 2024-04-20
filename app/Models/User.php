@@ -28,8 +28,8 @@ class User extends Authenticatable
         'password',
         'user_type',
         'status',
-        'created_by',
-        'updated_by',
+        'created_by_id',
+        'updated_by_id',
         'created_at',
         'updated_at',
     ];
@@ -69,8 +69,8 @@ class User extends Authenticatable
                         'password',
                         'user_type',
                         'status',
-                        'created_by',
-                        'updated_by',
+                        'created_by_id',
+                        'updated_by_id',
                         'created_at',
                         'updated_at',
                     );
@@ -85,16 +85,16 @@ class User extends Authenticatable
         $data = array_intersect_key($post, array_flip($saveFields));
 
         if ($id == 0) {
-            $data['created_by'] = $userId;
+            $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id'] = null;
 
             $lead = User::create($data);
             return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data saved!'];
         } else {
             $lead = User::find($id);
             if ($lead) {
-                $data['updated_by'] = $userId;
+                $data['updated_by_id'] = $userId;
                 $data['updated_at'] = date("Y-m-d H:i:s");
                 $lead->update($data);
                 return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data updated!'];

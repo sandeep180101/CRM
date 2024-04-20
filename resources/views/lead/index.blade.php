@@ -38,9 +38,9 @@
                           </div>
                           <div class="col-md-3">
                             <label for="lead_source_id" class="form-label">Lead Source</label>
-                            <select name="lead_source_id" id="lead_source_id" aria-label="Select source" data-control="select2" class="form-select mb-2">
+                            <select name="lead_source_id" id="lead_source_id" aria-label="Select a Language" data-control="select2" data-placeholder="Choose..." class="form-select mb-2">
                                 <option value="">Select</option>
-                                @foreach($lead_source['results'] as $source)
+                                @foreach($lead_source as $source)
                                     <option value="{{$source->id}}">{{ $source->lead_source_name}}</option>
                                 @endforeach
                             </select>
@@ -49,9 +49,11 @@
                             <label for="lead_status_id" class="form-label">Lead Status</label>
                             <select class="form-select" id="lead_status_id" name="lead_status_id">
                                 <option value="">Select</option>
+                                @if(!empty($lead_status['results']))
                                 @foreach($lead_status['results'] as $status)
                                 <option value="{{$status->id}}">{{$status->lead_status_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -79,10 +81,9 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            @if (!empty($leads['results']))
 
                             <tbody id="table-content">
-                                @foreach ($leads['results'] as $lead)
+                                @foreach ($leads as $lead)
                                 <tr>
                                     <td>{{ $lead->id }}</td>
                                     <td>{{ $lead->date}}</td>
@@ -100,7 +101,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        @endif
 
                         <?php if(count($leads)){?>
                             <div class="row">

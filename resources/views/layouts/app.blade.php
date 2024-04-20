@@ -209,7 +209,7 @@ $userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('customers')}}">
+        <a class="nav-link collapsed" href="{{url('party')}}">
           <i class="bi bi-people"></i>
           <span>Customer</span>
         </a>

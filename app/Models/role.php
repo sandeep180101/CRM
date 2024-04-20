@@ -29,16 +29,16 @@ class role extends Model
         $data['updated_at'] = date("Y-m-d H:i:s");
 
         if ($id == 0) {
-            $data['created_by'] = 1;
+            $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id'] = null;
 
             $role = role::create($data);
             return ['id' => $role->id, 'status' => 'success', 'message' => 'Role data saved!'];
         } else {
             $role = role::find($id);
             if ($role) {
-                $data['updated_by'] = 1;
+                $data['updated_by_id'] = 1;
                 $role->update($data);
                 return ['id' => $id, 'status' => 'success', 'message' => 'Role data updated!'];
             } else {

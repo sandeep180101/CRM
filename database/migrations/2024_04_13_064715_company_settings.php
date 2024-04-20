@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('company_name',100);
             $table->string('display_name',10);
-            $table->string('email')->unique();
-            $table->bigInteger('phone');
-            $table->string('address');
+            $table->string('email')->unique()->nullable();
+            $table->bigInteger('phone')->nullable();
+            $table->string('address')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();
@@ -28,8 +28,10 @@ return new class extends Migration
             $table->string('pan_no',10)->nullable();
             $table->string('logo')->nullable();
             $table->string('websites')->nullable();
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->unsignedBigInteger('updated_by_id')->nullable();
+            $table->foreign('created_by_id')->references('id')->on('users');
+            $table->foreign('updated_by_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

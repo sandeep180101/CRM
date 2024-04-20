@@ -20,8 +20,6 @@
                                 </div>
                             @enderror
                         </div>
-                        
-
                         <div class="col-md-3">
                             <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" value="{{isset($singleData['name']) ? $singleData['name'] : ''}}" required>
@@ -68,18 +66,22 @@
                             <label for="country_id" class="form-label">Country</label>
                             <select class="form-select" id="country_id" name="country_id">
                                 <option value="" {{ !isset($singleData['country_id']) ? 'selected' : '' }}>Choose...</option>
+                                @if (!empty($countries['results']))
                                 @foreach($countries['results'] as $country)
                                     <option value="{{$country->id}}" {{ isset($singleData['country_id']) && $singleData['country_id'] == $country->id ? 'selected' : ''}}>{{$country->country_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="state_id" class="form-label">State</label>
                             <select class="form-select" id="state_id" name="state_id">
                                 <option value="" {{ !isset($singleData['state_id']) ? 'selected' : '' }}>Choose...</option>
+                                @if (!empty($states['results']))
                                 @foreach($states['results'] as $state)
                                     <option value="{{$state->id}}" {{ isset($singleData['state_id']) && $singleData['state_id'] == $state->id ? 'selected' : ''}}>{{$state->state_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
 
@@ -87,9 +89,12 @@
                             <label for="city_id" class="form-label">City</label>
                             <select class="form-select" id="city_id" name="city_id">
                                 <option value="" {{ !isset($singleData['city_id']) ? 'selected' : '' }}>Choose...</option>
+                                @if (!empty($cities['results']))
+
                                 @foreach($cities['results'] as $city)
                                     <option value="{{$city->id}}" {{ isset($singleData['city_id']) && $singleData['city_id'] == $city->id ? 'selected' : ''}}>{{$city->city_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -119,9 +124,12 @@
                             <label for="lead_source_id" class="form-label">Lead Source  <span class="text-danger">*</span></label>
                             <select class="form-select" id="lead_source_id" name="lead_source_id">
                                 <option value="" {{ !isset($singleData['lead_source_id']) || $singleData['lead_source_id'] == 'default' ? 'selected' : '' }}>Choose...</option>
+                                @if (!empty($leadsourcestatus['results']))
+
                                 @foreach($leadsourcestatus['results'] as $source)
                                     <option value="{{$source->id}}" {{ isset($singleData['lead_source_id']) && $singleData['lead_source_id'] == $source->id ? 'selected' : ''}}>{{$source->lead_source_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                             
                             @error('lead_source_id')
@@ -133,10 +141,13 @@
                         <div class="col-md-3">
                             <label for="lead_status_id" class="form-label">Lead Status <span class="text-danger">*</span></label>
                             <select class="form-select" id="lead_status_id" name="lead_status_id">
+                                @if (!empty($leadstatus['results']))
+
                                 <option value="" {{ !isset($singleData['lead_status_id']) ? 'selected' : '' }}>Choose...</option>
                                 @foreach($leadstatus['results']  as $status)
                                     <option value="{{$status->id}}" {{ isset($singleData['lead_status_id']) && $singleData['lead_status_id'] == $status->id ? 'selected' : ''}}>{{$status->lead_status_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                             @error('lead_status_id')
                                 <div class="invalid-feedback" role="alert">

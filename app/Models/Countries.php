@@ -12,11 +12,11 @@ class Countries extends Model
     protected $table = 'master_countries';
 
     protected $fillable = [
-        'id', 'country_name','created_by','status','updated_by','created_at', 'updated_at'
+        'id', 'country_name','created_by_id','status','updated_by_id','created_at', 'updated_at'
     ];
 
     public function getSaveData() {
-        return array('id', 'country_name','created_by','status','updated_by','created_at', 'updated_at');
+        return array('id', 'country_name','created_by_id','status','updated_by_id','created_at', 'updated_at');
     }
 
     public function saveData($post) {
@@ -29,8 +29,8 @@ class Countries extends Model
 
         if($id == 0){
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['created_by'] = 1;
-            $data['updated_by'] = null;
+            $data['created_by_id'] = 1;
+            $data['updated_by_id'] = null;
 
             $country = Countries::create($data);
             return ['id' => $country->id, 'status' => 'success', 'message' => 'Country data saved!'];

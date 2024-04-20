@@ -16,16 +16,16 @@ class CityModel extends Model
         'city_name',
         'state_id',
         'country_id',
-        'created_by',
+        'created_by_id',
         'status',
-        'updated_by',
+        'updated_by_id',
         'created_at',
         'updated_at'
     ];
 
     public function getSaveData()
     {
-        return array('id', 'city_name', 'state_id', 'country_id', 'created_by', 'status', 'updated_by', 'created_at', 'updated_at');
+        return array('id', 'city_name', 'state_id', 'country_id', 'created_by_id', 'status', 'updated_by_id', 'created_at', 'updated_at');
     }
 
     public function saveData($post)
@@ -38,16 +38,16 @@ class CityModel extends Model
         $data['updated_at'] = date("Y-m-d H:i:s");
 
         if ($id == 0) {
-            $data['created_by'] = 1;
+            $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id'] = null;
 
             $city = CityModel::create($data);
             return ['id' => $city->id, 'status' => 'success', 'message' => 'City data saved!'];
         } else {
             $city = CityModel::find($id);
             if ($city) {
-                $data['updated_by'] = 1;
+                $data['updated_by_id'] = 1;
                 $city->update($data);
                 return ['id' => $id, 'status' => 'success', 'message' => 'City data updated!'];
             } else {
@@ -113,10 +113,10 @@ class CityModel extends Model
           
           $results = $query->get();
           if ($totalCount) {
-              return ['results' => $results, 'total_count' => $totalCount];
-          } else {
-              return ['results' => '', 'total_count' => 0];
-          }
+            return ['results' => $results, 'total_count' => $totalCount];
+        } else {
+            return ['results' => '', 'total_count' => 0];
+        }
       }
 
 }

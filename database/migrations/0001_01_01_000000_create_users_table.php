@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('password')->default('$2y$12$0kKZpWQdUaBPBbC8RzjWNOHKgPCTPaLM5tO3OzwczCa8qc/14qlci');
             $table->enum('user_type',['1','2'])->default('2')->comment('1=>Admin,2=>User');
             $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
+            $table->string('created_by_id',50)->nullable();
+            $table->string('updated_by_id',50)->nullable();
             $table->timestamps();
         });
 

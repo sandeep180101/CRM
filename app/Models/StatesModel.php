@@ -15,16 +15,16 @@ class StatesModel extends Model
         'id',
         'state_name',
         'country_id',
-        'created_by',
+        'created_by_id',
         'status',
-        'updated_by',
+        'updated_by_id',
         'created_at',
         'updated_at'
     ];
 
     public function getSaveData()
     {
-        return array('id', 'state_name', 'country_id', 'created_by', 'status', 'updated_by', 'created_at', 'updated_at');
+        return array('id', 'state_name', 'country_id', 'created_by_id', 'status', 'updated_by_id', 'created_at', 'updated_at');
     }
 
     public function saveData($post)
@@ -37,16 +37,16 @@ class StatesModel extends Model
         $data['updated_at'] = date("Y-m-d H:i:s");
 
         if ($id == 0) {
-            $data['created_by'] = 1;
+            $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id'] = null;
 
             $state = StatesModel::create($data);
             return ['id' => $state->id, 'status' => 'success', 'message' => 'State data saved!'];
         } else {
             $state = StatesModel::find($id);
             if ($state) {
-                $data['updated_by'] = 1;
+                $data['updated_by_id'] = 1;
                 $state->update($data);
                 return ['id' => $id, 'status' => 'success', 'message' => 'State data updated!'];
             } else {

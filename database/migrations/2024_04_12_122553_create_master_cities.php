@@ -19,9 +19,20 @@ return new class extends Migration
             $table->foreign('country_id')->references('id')->on('master_countries');
             $table->foreign('state_id')->references('id')->on('master_states');
             $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->unsignedBigInteger('updated_by_id')->nullable();
+            $table->foreign('created_by_id')->references('id')->on('users');
+            $table->foreign('updated_by_id')->references('id')->on('users');
             $table->timestamps();
+
+            $table->index([
+                'city_name',
+                'country_id',
+                'state_id',
+                'status', 
+                'created_by_id',
+                'updated_by_id',
+            ], 'master_cities_index');
         });
     }
 

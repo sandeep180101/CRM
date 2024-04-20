@@ -14,13 +14,13 @@ class LeadNote extends Model
 
     protected $table = 'lead_note';
 
-    protected $fillable = ['lead_id','user_id','notes', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+    protected $fillable = ['lead_id','user_id','notes', 'status', 'created_by_id', 'updated_by_id', 'created_at', 'updated_at'];
 
 
 
     public function getSaveData()
     {
-        return array('lead_id','user_id','notes', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at');
+        return array('lead_id','user_id','notes', 'status', 'created_by_id', 'updated_by_id', 'created_at', 'updated_at');
     }
 
     public function saveData($post)
@@ -33,9 +33,9 @@ class LeadNote extends Model
         $data = array_intersect_key($post, array_flip($saveFields));
         $data['updated_at'] = date("Y-m-d H:i:s");
             $data['user_id'] = $userId;
-            $data['created_by'] = $userId;
+            $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id'] = null;
             $leadnote = LeadNote::create($data);
             return ['id' => $leadnote->id, 'encryptid' => Crypt::encrypt($leadnote->id), 'status' => 'success', 'message' => 'leadnote data saved!'];
 

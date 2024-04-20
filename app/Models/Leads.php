@@ -14,13 +14,13 @@ class Leads extends Model
 
     protected $table = 'leads';
 
-    protected $fillable = ['date', 'name', 'company_name', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+    protected $fillable = ['date', 'name', 'company_name', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by_id', 'updated_by_id_id', 'created_at', 'updated_at'];
 
 
 
     public function getSaveData()
     {
-        return array('date', 'name', 'company_name', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by', 'updated_by', 'created_at', 'updated_at');
+        return array('date', 'name', 'company_name', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by_id', 'updated_by_id', 'created_at', 'updated_at');
     }
 
     public function saveData($post)
@@ -33,16 +33,17 @@ class Leads extends Model
         $data = array_intersect_key($post, array_flip($saveFields));
 
         if ($id == 0) {
-            $data['created_by'] = $userId;
+            $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $lead = Leads::create($data);
             return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data saved!'];
         } else {
             $lead = Leads::find($id);
             if ($lead) {
-                $data['updated_by'] = $userId;
+                $data['updated_by_id'] = $userId;
                 $data['updated_at'] = date("Y-m-d H:i:s");
                 $lead->update($data);
                 return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data updated!'];
@@ -67,7 +68,7 @@ class Leads extends Model
         $query = DB::table('leads as l');
         $query->select(
             "l.id",
-            'l.date',
+            DB::raw('date_format(l.date,"%d-%m-%Y") as date'),
             'l.name',
             'l.company_name',
             'l.phone',
@@ -86,8 +87,8 @@ class Leads extends Model
             'c.city_name',
             'lsource.lead_source_name',
             'lstatus.lead_status_name',
-            'l.created_by',
-            'l.updated_by',
+            'l.created_by_id',
+            'l.updated_by_id',
             'created_by_user.name as uname',
         );
         $query->leftJoin('master_countries as co', 'l.country_id', '=', 'co.id');
@@ -95,7 +96,7 @@ class Leads extends Model
         $query->leftJoin('master_cities as c', 'l.city_id', '=', 'c.id');
         $query->leftJoin('master_lead_status as lstatus', 'l.lead_status_id', '=', 'lstatus.id');
         $query->leftJoin('master_lead_source as lsource', 'l.lead_source_id', '=', 'lsource.id');
-        $query->leftJoin('users as created_by_user', 'l.created_by', '=', 'created_by_user.id');
+        $query->leftJoin('users as created_by_user', 'l.created_by_id', '=', 'created_by_user.id');
 
 
         if (!empty($params['id'])) {
@@ -156,8 +157,12 @@ class Leads extends Model
         foreach ($results as $result) {
             $result->encrypted_id = Crypt::encrypt($result->id);
         }
-
-        return ['results' => $results, 'total_count' => $totalCount];
+        
+        if ($totalCount) {
+            return ['results' => $results, 'total_count' => $totalCount];
+        } else {
+            return ['results' => '', 'total_count' => 0];
+        }
     }
 
 }

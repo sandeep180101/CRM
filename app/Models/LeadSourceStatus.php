@@ -11,7 +11,7 @@ class LeadSourceStatus extends Model
     use HasFactory;
     protected $table = 'master_lead_source';
 
-    protected $fillable = ['id','lead_source_name', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+    protected $fillable = ['id','lead_source_name', 'created_by_id', 'updated_by_id', 'created_at', 'updated_at'];
 
 
     public static function getAllLeadSource($params = []){
@@ -25,11 +25,11 @@ class LeadSourceStatus extends Model
           $query->orderBy('lead_source_name', 'ASC');
           
           $results = $query->get();
-          if ($totalCount) {
-              return ['results' => $results, 'total_count' => $totalCount];
-          } else {
-              return ['results' => '', 'total_count' => 0];
-          }
+          if ($totalCount >0) {
+            return ['results' => $results, 'total_count' => $totalCount];
+        } else {
+            return ['results' => '', 'total_count' => 0];
+        }
       }
 
 }

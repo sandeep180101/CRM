@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class contactsModelModel extends Model
+class contactsModel extends Model
 {
     use HasFactory;
-    protected $table = 'contactsModel';
+    protected $table = 'contacts';
 
     protected $fillable = [
         'id', 'contact_name','contact_email','contact_phone','contact_address','status','created_at', 'updated_at'
@@ -29,16 +29,16 @@ class contactsModelModel extends Model
         $data['updated_at'] = date("Y-m-d H:i:s");
 
         if ($id == 0) {
-            $data['created_by'] = 1;
+            $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by'] = null;
+            $data['updated_by_id_id'] = null;
 
-            $contact = Contacts::create($data);
+            $contact = contactsModel::create($data);
             return ['id' => $contact->id, 'status' => 'success', 'message' => 'Contacts data saved!'];
         } else {
-            $contact = Contacts::find($id);
+            $contact = contactsModel::find($id);
             if ($contact) {
-                $data['updated_by'] = 1;
+                $data['updated_by_id'] = 1;
                 $contact->update($data);
                 return ['id' => $id, 'status' => 'success', 'message' => 'Contacts data updated!'];
             } else {
@@ -57,7 +57,7 @@ class contactsModelModel extends Model
 
     public static function getAllContacts($params=[]){
 
-        $query = DB::table('contactsModel');
+        $query = DB::table('contacts');
         $query->select("id", "contact_name", 'contact_address','contact_email','contact_phone',DB::raw("CASE WHEN status = 0 THEN 'Active' ELSE 'Inactive' END AS status"));
         if(isset($params['id'])){
             $id = isset($params['id']) ? $params['id'] : '';

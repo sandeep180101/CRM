@@ -23,10 +23,17 @@ class LeadController extends Controller
         try {
             $data['title'] = "Leads Detail";
             $param = array('start' => 0);
-            $data["lead_source"] = LeadSourceStatus::getAllLeadSource($param);
+            $lead_source = LeadSourceStatus::getAllLeadSource($param);
             $param = array('start' => 0, 'limit' => 10);
-            $data["leads"] = Leads::getAllLeads($param);
-            $data["lead_status"] = Leadstatus::getAllLeadStatus($param);
+            $leads = Leads::getAllLeads($param);
+            $lead_status = Leadstatus::getAllLeadStatus($param);
+            if($lead_source['total_count']>0){
+                $data['lead_source'] = $lead_source['results'];
+                $data['total_count'] = $lead_source['total_count'];
+            }else{
+                $data['lead_source'] = [];
+                $data['total_count'] = 0;
+            }
             return view("lead.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
