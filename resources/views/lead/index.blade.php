@@ -40,18 +40,22 @@
                             <label for="lead_source_id" class="form-label">Lead Source</label>
                             <select name="lead_source_id" id="lead_source_id" aria-label="Select source" data-control="select2" class="form-select mb-2">
                                 <option value="">Select</option>
+                                @if(!empty($lead_source['results']))
                                 @foreach($lead_source['results'] as $source)
                                     <option value="{{$source->id}}">{{ $source->lead_source_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="lead_status_id" class="form-label">Lead Status</label>
                             <select class="form-select" id="lead_status_id" name="lead_status_id">
                                 <option value="">Select</option>
+                                @if(!empty($lead_status['results']))
                                 @foreach($lead_status['results'] as $status)
                                 <option value="{{$status->id}}">{{$status->lead_status_name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">

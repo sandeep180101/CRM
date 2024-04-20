@@ -36,6 +36,7 @@ class Leads extends Model
             $data['created_by'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by'] = null;
+            $data['updated_at'] = null;
 
             $lead = Leads::create($data);
             return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data saved!'];

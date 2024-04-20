@@ -40,7 +40,9 @@
               <div class="col-md-4 mt-2"> <b>Created By :</b></div>
               <div class="col-md-8 mt-2">{{$leads[0]->uname}}    {{$leads[0]->lead_timestamp_created }}</div>
               <div class="col-md-4 mt-2"> <b>Updated By : </b> </div>
+              @if(!empty($leads[0]->lead_timestamp_updated))
               <div class="col-md-8 mt-2">{{$leads[0]->uname}}   {{$leads[0]->lead_timestamp_updated }}</div>
+              @endif
             </div>
             <div class=" mt-3">
               <a href="{{url('leads/add/'.Crypt::encrypt($leads[0]->id))}}" type="submit" class="btn btn-danger"><i class="bi bi-pencil-square"></i> &nbsp;Edit Lead</a>

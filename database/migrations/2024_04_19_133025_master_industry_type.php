@@ -14,7 +14,7 @@ return new class extends Migration
         //
         Schema::create("master_industry_type", function (Blueprint $table) {
             $table->id();
-            $table->string("industry_name");
+            $table->string("industry_name",100);
             $table->tinyInteger('status')->default(0)->comment('0=>Active , 1=>Inactive');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

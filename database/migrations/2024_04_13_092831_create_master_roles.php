@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('role_name',100);
             $table->tinyInteger('status')->default('0')->comment('0=>active,1=>inactive');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

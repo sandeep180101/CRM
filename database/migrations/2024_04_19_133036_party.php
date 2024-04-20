@@ -20,12 +20,12 @@ return new class extends Migration
             $table->unsignedBigInteger('business_id')->nullable();
             $table->foreign('industry_id')->references('id')->on('master_industry_type');
             $table->foreign('business_id')->references('id')->on('master_business_type');
-            $table->string("phone",15);
-            $table->string("email",15);
-            $table->string("whatsapp",15);
-            $table->string("skype",15);
-            $table->string("GST",15);
-            $table->string("website",100);
+            $table->string("phone",15)->nullable();
+            $table->string("email",15)->nullable();
+            $table->string("whatsapp",15)->nullable();
+            $table->string("skype",15)->nullable();
+            $table->string("GST",15)->nullable();
+            $table->string("website",100)->nullable();
             $table->string('address', 255)->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();

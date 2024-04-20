@@ -16,8 +16,8 @@ return new class extends Migration
             $table->date('date');
             $table->string('name', 100);
             $table->string('company_name', 100);
-            $table->string('email', 50);
-            $table->string('phone', 15);
+            $table->string('email', 50)->nullable();
+            $table->string('phone', 15)->nullable();
             $table->string('address', 255)->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
