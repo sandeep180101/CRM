@@ -85,9 +85,9 @@ class contactsModel extends Model
         $query->orderBy('id', 'ASC');
         $results = $query->get();
         if ($totalCount) {
-            return ['results' => $results, 'total_count' => $totalCount];
+            return ['results' => $results, 'totalCount' => $totalCount];
         } else {
-            return ['results' => '', 'total_count' => 0];
+            return ['results' => '', 'totalCount' => 0];
         }
 
     }

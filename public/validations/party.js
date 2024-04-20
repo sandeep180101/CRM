@@ -104,7 +104,7 @@ $(document).ready(function () {
                 if (obj.status == 'success') {
                     $("#lead_search").show();
                     $("#search_display_processing").css('display', 'none');
-                    if (obj.total_count > 0) {
+                    if (obj.totalCount > 0) {
                         let html = '';
                         let user = obj.leads;
                         console.log(user);
@@ -128,8 +128,8 @@ $(document).ready(function () {
                         $('.pagination').show();
                         $('#showing').show();
                         $('#showing').html(obj.message);
-                        var remaining = obj.total_count % filter.limit;
-                        var total_page = (remaining > 0) ? parseInt(obj.total_count / filter.limit) + 1 : parseInt(obj.total_count / filter.limit);
+                        var remaining = obj.totalCount % filter.limit;
+                        var total_page = (remaining > 0) ? parseInt(obj.totalCount / filter.limit) + 1 : parseInt(obj.totalCount / filter.limit);
                         $('#pagination').find('ul li.strt').attr('data-start', 0);
                         $('#pagination').find('ul li.prev').attr('data-start', (parseInt(filter.start) - parseInt(filter.limit)) < 0 ? 0 : (parseInt(filter.start) - parseInt(filter.limit)));
                         $('#pagination').find('ul li a.disp').text(parseInt(parseInt(filter.start) / parseInt(filter.limit)) + 1);

@@ -25,12 +25,12 @@ class StateController extends Controller
             $param = array('limit' => 10, 'start' => 0);
             $data["countries"] = Countries::all();
             $roles = StatesModel::getAllStates($param);
-            if ($roles['total_count'] > 0) {
+            if ($roles['totalCount'] > 0) {
                 $data['states'] = $roles['results'];
-                $data['total_count'] = $roles['total_count'];
+                $data['totalCount'] = $roles['totalCount'];
             } else {
                 $data['states'] = '';
-                $data['total_count'] = 0;
+                $data['totalCount'] = 0;
             }
             return view('master.state.index', $data);
         } catch (\Exception $e) {

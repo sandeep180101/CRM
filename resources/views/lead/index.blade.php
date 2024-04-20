@@ -40,26 +40,18 @@
                             <label for="lead_source_id" class="form-label">Lead Source</label>
                             <select name="lead_source_id" id="lead_source_id" aria-label="Select a Language" data-control="select2" data-placeholder="Choose..." class="form-select mb-2">
                                 <option value="">Select</option>
-<<<<<<< HEAD
                                 @foreach($lead_source as $source)
-=======
-                                @if(!empty($lead_source['results']))
-                                @foreach($lead_source['results'] as $source)
->>>>>>> c058c00d4125f08aef8af32960b9b229dd14dc70
                                     <option value="{{$source->id}}">{{ $source->lead_source_name}}</option>
                                 @endforeach
-                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="lead_status_id" class="form-label">Lead Status</label>
                             <select class="form-select" id="lead_status_id" name="lead_status_id">
                                 <option value="">Select</option>
-                                @if(!empty($lead_status['results']))
                                 @foreach($lead_status['results'] as $status)
                                 <option value="{{$status->id}}">{{$status->lead_status_name}}</option>
                                 @endforeach
-                                @endif
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -87,7 +79,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-
+                            @if(!empty($leads['results']))
+                                
                             <tbody id="table-content">
                                 @foreach ($leads as $lead)
                                 <tr>
@@ -107,6 +100,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @endif
 
                         <?php if(count($leads)){?>
                             <div class="row">
@@ -116,9 +110,9 @@
                                        <div class="col-lg-12 col-md-6">
                                            <label class="text-muted mt-1 m-b-0" id="showing">
                                                Showing 1 to
-                                               <?php echo $limit_upto = ($leads['total_count'] >
-                                               10) ? 10 : $leads['total_count'];?> of
-                                               <?php echo $leads['total_count'];?>
+                                               <?php echo $limit_upto = ($leads['totalCount'] >
+                                               10) ? 10 : $leads['totalCount'];?> of
+                                               <?php echo $leads['totalCount'];?>
                                                records.
                                            </label>
                                        </div>
@@ -126,7 +120,7 @@
                                </div>
                                <div class="col-lg-3 col-md-6">
                                    <div id="pagination" class="float-right">
-                                       <?php $limit = count($leads); $remaining = $leads['total_count']%$limit;$total_page = ($remaining > 0) ? (int)($leads['total_count']/$limit)+1 : (int)($leads['total_count']/$limit); ?>
+                                       <?php $limit = count($leads); $remaining = $leads['totalCount']%$limit;$total_page = ($remaining > 0) ? (int)($leads['totalCount']/$limit)+1 : (int)($leads['totalCount']/$limit); ?>
                                        <ul class="pagination justify-content-center">
                                            <li class="page-item strt filter" data-limit="<?php echo $limit;?>" data-start="0"><a class="page-link" href="javascript:void(0);">Previous</a></li>
                                            <li class="page-item prev filter" data-limit="<?php echo $limit;?>" data-start="0">

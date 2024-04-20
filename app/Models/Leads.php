@@ -14,13 +14,13 @@ class Leads extends Model
 
     protected $table = 'leads';
 
-    protected $fillable = ['date', 'name', 'company_name', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by_id', 'updated_by_id_id', 'created_at', 'updated_at'];
+    protected $fillable = ['date', 'name', 'company_name','lead_for_id', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'remarks', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by_id', 'updated_by_id_id', 'created_at', 'updated_at'];
 
 
 
     public function getSaveData()
     {
-        return array('date', 'name', 'company_name', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'product_details', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by_id', 'updated_by_id', 'created_at', 'updated_at');
+        return array('date', 'name', 'company_name', 'lead_for_id', 'email', 'phone', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'remarks', 'approximate_amount', 'lead_source_id', 'lead_status_id', 'created_by_id', 'updated_by_id', 'created_at', 'updated_at');
     }
 
     public function saveData($post)
@@ -35,12 +35,8 @@ class Leads extends Model
         if ($id == 0) {
             $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
-<<<<<<< HEAD
             $data['updated_by_id'] = null;
-=======
-            $data['updated_by'] = null;
->>>>>>> c058c00d4125f08aef8af32960b9b229dd14dc70
-            $data['updated_at'] = null;
+
 
             $lead = Leads::create($data);
             return ['id' => $lead->id, 'encryptid' => Crypt::encrypt($lead->id), 'status' => 'success', 'message' => 'lead data saved!'];
@@ -82,7 +78,9 @@ class Leads extends Model
             'l.address',
             'l.pincode',
             'l.approximate_amount',
-            'l.product_details',
+            'l.remarks',
+            'l.lead_for_id',
+            'lfor.lead_for_name',
             DB::raw('date_format(l.created_at,"%d-%m-%Y") as lead_timestamp_created'),
             DB::raw('date_format(l.updated_at,"%d-%m-%Y") as lead_timestamp_updated'),
             DB::raw('date_format(l.date,"%d-%m-%Y") as lead_created'),
@@ -100,6 +98,7 @@ class Leads extends Model
         $query->leftJoin('master_cities as c', 'l.city_id', '=', 'c.id');
         $query->leftJoin('master_lead_status as lstatus', 'l.lead_status_id', '=', 'lstatus.id');
         $query->leftJoin('master_lead_source as lsource', 'l.lead_source_id', '=', 'lsource.id');
+        $query->leftJoin('master_lead_for as lfor', 'l.lead_for_id', '=', 'lfor.id');
         $query->leftJoin('users as created_by_user', 'l.created_by_id', '=', 'created_by_user.id');
 
 
@@ -163,9 +162,9 @@ class Leads extends Model
         }
         
         if ($totalCount) {
-            return ['results' => $results, 'total_count' => $totalCount];
+            return ['results' => $results, 'totalCount' => $totalCount];
         } else {
-            return ['results' => '', 'total_count' => 0];
+            return ['results' => '', 'totalCount' => 0];
         }
     }
 

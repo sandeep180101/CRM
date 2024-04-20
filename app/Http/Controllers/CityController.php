@@ -23,12 +23,12 @@ class CityController extends Controller
             $param = array();
             $param = array('limit' => 10, 'start' => 0);
             $roles = CityModel::getAllCityModel($param);
-            if ($roles['total_count'] > 0) {
+            if ($roles['totalCount'] > 0) {
                 $data['cities'] = $roles['results'];
-                $data['total_count'] = $roles['total_count'];
+                $data['totalCount'] = $roles['totalCount'];
             } else {
                 $data['cities'] = '';
-                $data['total_count'] = 0;
+                $data['totalCount'] = 0;
             }
             return view('master.city.index', $data);
         } catch (\Exception $e) {

@@ -6,17 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Leadstatus extends Model
+class LeadForModel extends Model
 {
     use HasFactory;
-    protected $table = 'master_lead_status';
 
-    public static function getAllLeadStatus($params = []){
-        $query = DB::table('master_lead_status as c');          
-          $query->select("c.id", "lead_status_name");
+    public static function getAllLeadFor($params = []){
+        $query = DB::table('master_lead_for as c');          
+          $query->select("c.id", "lead_for_name");
           
           $totalCount = $query->count();
-          $query->orderBy('lead_status_name', 'ASC');
+          $query->orderBy('lead_for_name', 'ASC');
           
           $results = $query->get();
           if ($totalCount) {
@@ -25,6 +24,4 @@ class Leadstatus extends Model
               return ['results' => '', 'totalCount' => 0];
           }
       }
-
-
 }

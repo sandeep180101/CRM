@@ -19,8 +19,9 @@ class LeadsValidation
             'state_id' => 'nullable',
             'city_id' => 'nullable',
             'pincode' => 'nullable',
-            'product_details' => 'required|string',
+            'remarks' => 'required|string',
             'approximate_amount'=> 'required|numeric|min:5000|max:9999999',
+            'lead_for_id'=>'required',
             'lead_source_id'=> 'required',
             'lead_status_id'=> 'required',
         ]);

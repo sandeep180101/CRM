@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CityModel;
 use App\Models\Countries;
+use App\Models\LeadForModel;
 use App\Models\LeadNote;
 use App\Models\Leads;
 use App\Models\LeadSourceStatus;
@@ -25,14 +26,16 @@ class LeadController extends Controller
             $param = array('start' => 0);
             $lead_source = LeadSourceStatus::getAllLeadSource($param);
             $param = array('start' => 0, 'limit' => 10);
-            $leads = Leads::getAllLeads($param);
-            $lead_status = Leadstatus::getAllLeadStatus($param);
-            if($lead_source['total_count']>0){
+            $data["leads"] = Leads::getAllLeads($param);
+            $data["lead_status"] = Leadstatus::getAllLeadStatus($param);
+            // dd($data);
+            // dd($lead_source);
+            if($lead_source['totalCount'] > 0) {
                 $data['lead_source'] = $lead_source['results'];
-                $data['total_count'] = $lead_source['total_count'];
+            $data['totalCount'] = $lead_source['totalCount'];
             }else{
-                $data['lead_source'] = [];
-                $data['total_count'] = 0;
+                $data['lead_source'] = '';
+                $data['totalCount'] = 0;
             }
             return view("lead.index", $data);
         } catch (\Exception $e) {
@@ -63,7 +66,7 @@ class LeadController extends Controller
             $data["cities"] = CityModel::getAllCityModel();
             $data["countries"] = Countries::getAllCountry();
             $data["states"] = StatesModel::getAllStates();
-
+            $data["lead_fors"] = LeadForModel::getAllLeadFor();
             $data["leadstatus"] = Leadstatus::getAllLeadStatus();
             $data["leadsourcestatus"] = LeadSourceStatus::getAllLeadSource();
             if ($id) {
@@ -125,12 +128,12 @@ class LeadController extends Controller
             }
             $data = [];
 
-            if ($leads['total_count'] > 0) {
+            if ($leads['totalCount'] > 0) {
                 $param = array('start' => 0);
                 $leadSources = LeadSourceStatus::getAllLeadSource($param);
                 $leadStatus = Leadstatus::getAllLeadStatus($param);
                 $data['leads'] = $leads['results'];
-                $data['total_count'] = $leads['total_count'];
+                $data['totalCount'] = $leads['totalCount'];
                 $count = count($leads['results']);
                 $data['status'] = 'success';
             } else {

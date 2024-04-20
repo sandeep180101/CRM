@@ -75,7 +75,7 @@ class PartyModel extends Model
     //         'l.address',
     //         'l.pincode',
     //         'l.approximate_amount',
-    //         'l.product_details',
+    //         'l.remarks',
     //         DB::raw('date_format(l.created_at,"%d-%m-%Y") as lead_timestamp_created'),
     //         DB::raw('date_format(l.updated_at,"%d-%m-%Y") as lead_timestamp_updated'),
     //         DB::raw('date_format(l.date,"%d-%m-%Y") as lead_created'),
@@ -157,9 +157,9 @@ class PartyModel extends Model
 
     //     
     // if ($totalCount) {
-    //     return ['results' => $results, 'total_count' => $totalCount];
+    //     return ['results' => $results, 'totalCount' => $totalCount];
     // } else {
-    //     return ['results' => '', 'total_count' => 0];
+    //     return ['results' => '', 'totalCount' => 0];
     // }
     // }
 }

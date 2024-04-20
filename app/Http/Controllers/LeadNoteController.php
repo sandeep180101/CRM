@@ -14,6 +14,7 @@ class LeadNoteController extends Controller
     //
     protected $table = 'lead_note';
     
+    
     public function save(Request $request)
     {
         try {
@@ -30,7 +31,6 @@ class LeadNoteController extends Controller
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }
-
             return json_encode($returnData);
         } catch (\Exception $e) {
             return $e->getMessage();

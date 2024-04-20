@@ -31,8 +31,10 @@
               <div class="col-md-8 mt-2">{{$leads[0]->city_name}}</div>
               <div class="col-md-4 mt-2"> <b>Pincode : </b> </div>
               <div class="col-md-8 mt-2">{{$leads[0]->pincode}}</div>
-              <div class="col-md-4 mt-2"> <b>Product Interested In  : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->product_details}}</div>
+              <div class="col-md-4 mt-2"> <b>Lead For  : </b> </div>
+              <div class="col-md-8 mt-2">{{$leads[0]->lead_for_name}}</div>
+              <div class="col-md-4 mt-2"> <b>Remarks  : </b> </div>
+              <div class="col-md-8 mt-2">{{$leads[0]->remarks}}</div>
               <div class="col-md-4 mt-2"> <b>Approximate Amount : </b> </div>
               <div class="col-md-8 mt-2">{{$leads[0]->approximate_amount}}</div>
               <div class="col-md-4 mt-2"> <b>Status : </b> </div>

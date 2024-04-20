@@ -20,12 +20,12 @@ class ContactController extends Controller
             $param = array();
             $param = array('limit' => 10, 'start' => 0);
             $contactsModel = contactsModel::getAllContacts($param);
-            if ($contactsModel['total_count'] > 0) {
+            if ($contactsModel['totalCount'] > 0) {
                 $data['contactsModel'] = $contactsModel['results'];
-                $data['total_count'] = $contactsModel['total_count'];
+                $data['totalCount'] = $contactsModel['totalCount'];
             } else {
                 $data['contactsModel'] = '';
-                $data['total_count'] = 0;
+                $data['totalCount'] = 0;
             }
             return view('contactsModel.index', $data);
         } catch (\Exception $e) {
@@ -111,15 +111,15 @@ class ContactController extends Controller
 
             $contactsModel = contactsModel::getAllContacts($params);
 
-            if ($contactsModel['total_count'] > 0) {
+            if ($contactsModel['totalCount'] > 0) {
                 $data['contactsModel'] = $contactsModel['results'];
-                $data['total_count'] = $contactsModel['total_count'];
+                $data['totalCount'] = $contactsModel['totalCount'];
                 $count = count($contactsModel['results']) + $start;
-                $data['message'] = "Showing " . (++$request->start) . " to " . $count . " of " . $contactsModel['total_count'] . " records.";
+                $data['message'] = "Showing " . (++$request->start) . " to " . $count . " of " . $contactsModel['totalCount'] . " records.";
                 $data['status'] = 'success';
             } else {
                 $data['contactsModel'] = [];
-                $data['total_count'] = 0;
+                $data['totalCount'] = 0;
                 $data['message'] = 'No records found.';
                 $data['status'] = 'success';
             }

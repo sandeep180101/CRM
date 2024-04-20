@@ -19,12 +19,12 @@ class UserController extends Controller
             $data["title"] = "Add User";
             $param = array('limit' => 10 , 'start' => 0);
         $users = User::getUserViewDetails($param);
-        if($users['total_count'] > 0){
+        if($users['totalCount'] > 0){
             $data['users'] = $users['results'];
-            $data['total_count'] = $users['total_count'];
+            $data['totalCount'] = $users['totalCount'];
         }else{
             $data['users']  = [];
-            $data['total_count'] = 0;
+            $data['totalCount'] = 0;
         }
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);

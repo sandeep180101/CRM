@@ -141,9 +141,9 @@ class User extends Authenticatable
         }
         $results = $query->get();
         if($totalCount){
-            return array('results' => $results , 'total_count' => $totalCount);
+            return array('results' => $results , 'totalCount' => $totalCount);
         }else{
-            return array('results' => '' , 'total_count' => 0);
+            return array('results' => '' , 'totalCount' => 0);
         }
 }
 }

@@ -115,12 +115,12 @@ class PartyController extends Controller
             }
             $data = [];
 
-            if ($leads['total_count'] > 0) {
+            if ($leads['totalCount'] > 0) {
                 $param = array('start' => 0);
                 $leadSources = LeadSourceStatus::getAllLeadSource($param);
                 $leadStatus = Leadstatus::getAllLeadStatus($param);
                 $data['leads'] = $leads['results'];
-                $data['total_count'] = $leads['total_count'];
+                $data['totalCount'] = $leads['totalCount'];
                 $count = count($leads['results']);
                 $data['status'] = 'success';
             } else {

@@ -26,7 +26,9 @@ return new class extends Migration
             $table->foreign('state_id')->references('id')->on('master_states');
             $table->foreign('city_id')->references('id')->on('master_cities');
             $table->string('pincode', 6)->nullable();
-            $table->string('product_details', 255);
+            $table->unsignedBigInteger('lead_for_id')->nullable();
+            $table->foreign('lead_for_id')->references('id')->on('master_lead_for');
+            $table->longText('remarks');
             $table->unsignedBigInteger('approximate_amount');
             $table->unsignedBigInteger('lead_source_id')->nullable();
             $table->unsignedBigInteger('lead_status_id')->nullable();

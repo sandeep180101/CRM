@@ -33,16 +33,19 @@ $(document).ready(function () {
             company_name: {
                 required: true,
             },
-            product_details: {
+            remarks: {
                 required: true,
             },
             approximate_amount: {
                 required: true,
             },
-            lead_status: {
+            lead_for_id: {
                 required: true,
             },
-            lead_source: {
+            lead_status_id: {
+                required: true,
+            },
+            lead_source_id: {
                 required: true,
             }
         },
@@ -56,16 +59,19 @@ $(document).ready(function () {
             company_name: {
                 required: "Please enter a company name.",
             },
-            product_details: {
-                required: "Please enter a product.",
+            remarks: {
+                required: "Please enter a remarks.",
             },
             approximate_amount: {
                 required: "Please enter an approximate amount.",
             },
-            lead_status: {
+            lead_for_id: {
+                required: "Please select a lead",
+            },
+            lead_status_id: {
                 required: "Please select a lead status.",
             },
-            lead_source: {
+            lead_source_id: {
                 required: "Please select a lead source.",
             }
         },
@@ -96,7 +102,7 @@ $(document).ready(function () {
             });
         },
     });
-    
+
     $("#lead_search").on("click", function () {
         filter.name = $('#name').val();
         filter.company_name = $('#company_name').val();
@@ -134,7 +140,7 @@ $(document).ready(function () {
                 if (obj.status == 'success') {
                     $("#lead_search").show();
                     $("#search_display_processing").css('display', 'none');
-                    if (obj.total_count > 0) {
+                    if (obj.totalCount > 0) {
                         let html = '';
                         let user = obj.leads;
                         console.log(user);
@@ -158,8 +164,8 @@ $(document).ready(function () {
                         $('.pagination').show();
                         $('#showing').show();
                         $('#showing').html(obj.message);
-                        var remaining = obj.total_count % filter.limit;
-                        var total_page = (remaining > 0) ? parseInt(obj.total_count / filter.limit) + 1 : parseInt(obj.total_count / filter.limit);
+                        var remaining = obj.totalCount % filter.limit;
+                        var total_page = (remaining > 0) ? parseInt(obj.totalCount / filter.limit) + 1 : parseInt(obj.totalCount / filter.limit);
                         $('#pagination').find('ul li.strt').attr('data-start', 0);
                         $('#pagination').find('ul li.prev').attr('data-start', (parseInt(filter.start) - parseInt(filter.limit)) < 0 ? 0 : (parseInt(filter.start) - parseInt(filter.limit)));
                         $('#pagination').find('ul li a.disp').text(parseInt(parseInt(filter.start) / parseInt(filter.limit)) + 1);
