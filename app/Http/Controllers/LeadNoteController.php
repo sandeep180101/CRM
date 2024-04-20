@@ -31,7 +31,8 @@ class LeadNoteController extends Controller
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }
-            return json_encode($returnData);
+            return redirect()->back()->with('success', 'Lead Note created');
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }

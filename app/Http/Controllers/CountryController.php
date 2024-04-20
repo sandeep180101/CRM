@@ -18,10 +18,10 @@ class CountryController extends Controller
         $data['title'] = 'Countries';
         $param = array();
         $param = array('limit' => 10 , 'start' => 0);
-        $roles = Countries::getAllCountry($param);
-        if($roles['totalCount']>0){
-            $data['countries'] = $roles['results'];
-            $data['totalCount'] = $roles['totalCount'];
+        $countries = Countries::getAllCountry($param);
+        if($countries['totalCount']>0){
+            $data['countries'] = $countries['results'];
+            $data['totalCount'] = $countries['totalCount'];
         }else{
             $data['countries'] = '';
             $data['totalCount'] = 0;
@@ -43,7 +43,7 @@ class CountryController extends Controller
                 $data['singleData'] = '';
             }
         $data['title'] = 'Country Add';
-        return view('master.country.add',$data);
+        return view('master.country.index',$data);
     } catch (\Exception $e) {
         return $e->getMessage();
     }

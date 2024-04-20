@@ -18,11 +18,6 @@
             <a href="{{ url('cities/add') }}" class="btn btn-success btn-block">Add City</a>
         </div>
     </div>
-    <div class="col-md-6 md-3">
-        <div class="mb-3">
-            <a href="{{ url('roles/add') }}" class="btn btn-success btn-block">Add Role</a>
-        </div>
-    </div>
 </div>
 
 @endsection

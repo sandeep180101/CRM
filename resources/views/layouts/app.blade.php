@@ -244,7 +244,7 @@ $userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
       </li>
       @endif
       <li class="nav-item">
-        <a class="nav-link collapsed" href="setting.html">
+        <a class="nav-link collapsed" href="{{url('master')}}">
           <i class="bi bi-gear"></i>
           <span>Setting</span>
         </a>
