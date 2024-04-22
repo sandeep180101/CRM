@@ -26,6 +26,7 @@ class LeadNoteController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
+            
             $objleads = new LeadNote();
             $returnData = $objleads->saveData($request->all());
             if (count($returnData) <= 0) {

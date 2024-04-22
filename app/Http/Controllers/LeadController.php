@@ -93,6 +93,7 @@ class LeadController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
+            
             $objleads = new Leads();
             $returnData = $objleads->saveData($request->all());
             if (count($returnData) <= 0) {
@@ -105,6 +106,7 @@ class LeadController extends Controller
         }
     }
 
+    
     public static function leadFilter(Request $request)
     {
         try {

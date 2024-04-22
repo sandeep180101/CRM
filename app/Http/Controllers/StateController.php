@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\Countries;
 use App\Models\StatesModel;
 use App\Validations\stateValidation;
@@ -50,7 +51,15 @@ class StateController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-
+            $objCommon = new CommonModel;
+            $uniqueFieldValue = array(
+                'state_name' => $request->state_name,
+            );
+            $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+            if ($uniqueCount > 0) {
+                $returnData = array('status' => 'exist', 'message' => 'State name already exists!', 'unique_field' => $uniqueFieldValue);
+                return json_encode($returnData);
+            }
             $objstates = new StatesModel();
             $returnData = $objstates->saveData($request->all());
             if (count($returnData) <= 0) {

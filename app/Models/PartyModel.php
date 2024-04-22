@@ -34,6 +34,7 @@ class PartyModel extends Model
             $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $party = PartyModel::create($data);
             return ['id' => $party->id, 'encryptid' => Crypt::encrypt($party->id), 'status' => 'success', 'message' => 'party data saved!'];
@@ -49,42 +50,6 @@ class PartyModel extends Model
             }
         }
     }
-
-    // public function saveData($post) {
-    //     $saveFields = $this->getSaveData();
-    //     $finalData = new PartyModel;
-    //     foreach ($post as $k => $v) {
-    //         if (in_array($k, $saveFields)) {
-    //             $finalData[$k] = $v;
-    //         }
-    //     }
-    //     if (isset($finalData['id'])) {
-    //         $id = (int) $finalData['id'];
-    //     } else {
-    //         $id = 0;
-    //         unset($finalData['id']);
-    //     }
-    //     $userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
-
-    //     if ($id == 0) {
-    //         $finalData['created_at'] = date("Y-m-d H:i:s");
-    //         $finalData['created_by_id'] = $userId;
-    //         $finalData->save();
-    //         $id = $finalData->id;
-    //         return array('id' => $id,'encryptid' => Crypt::encrypt($id), 'status' => 'success', 'message' => "Customer data saved!");
-    //     } else {
-    //         if ($this->getSingleData($id)) {
-    //             $finalData['updated_at'] = date("Y-m-d H:i:s");
-    //             $finalData['updated_by_id'] = $userId;
-    //             $finalData->exists = true;
-    //             $finalData->id = $id;
-    //             $finalData->save();
-    //             return array('id' => $id, 'encryptid' => Crypt::encrypt($id), 'status' => 'success', 'message' => "Customer data updated!");
-    //         } else {
-    //             return false;
-    //         }
-    //     }
-    // }
     public function getSingleData($id)
     {
         $id = (int) $id;

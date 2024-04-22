@@ -59,7 +59,8 @@
                   <td>{{ $user->email}}</td>
                   <td>{{ $user->phone}}</td>
                   <td>{{ $user->status}}</td>
-                  <td> <a href="{{url('user/'. Crypt::encrypt($user->id))}}"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
+                  <td> <a href="{{url('user/'. Crypt::encrypt($user->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
+                    <a href="{{url('user/delete/'.$user->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
                 </tr>
                 @endforeach
 

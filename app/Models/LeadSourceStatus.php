@@ -32,6 +32,7 @@ class LeadSourceStatus extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['created_by_id'] = 1;
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $leadsource = LeadSourceStatus::create($data);
             return ['id' => $leadsource->id, 'status' => 'success', 'message' => 'Lead source data saved!'];

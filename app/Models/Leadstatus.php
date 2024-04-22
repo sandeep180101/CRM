@@ -31,6 +31,7 @@ class Leadstatus extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['created_by_id'] = 1;
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $leadstatus = Leadstatus::create($data);
             return ['id' => $leadstatus->id, 'status' => 'success', 'message' => 'Lead status data saved!'];

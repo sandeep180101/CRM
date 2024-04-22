@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -12,7 +13,7 @@ class UserController extends Controller
 {
     //
 
-
+    public $table = "users";
     public function add(Request $request,$id=null)
     {
         try {
@@ -49,7 +50,16 @@ class UserController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-
+            $objCommon = new CommonModel;
+            $uniqueFieldValue = array(
+                'phone' => $request->phone,
+                'email'=> $request->email,
+            );
+            $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+            if ($uniqueCount > 0) {
+                $returnData = array('status' => 'exist', 'message' => 'Customer already exists!', 'unique_field' => $uniqueFieldValue);
+                return json_encode($returnData);
+            }
             $objusers = new User();
             $returnData = $objusers->saveData($request->all());
             if (count($returnData) <= 0) {

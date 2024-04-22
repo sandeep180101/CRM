@@ -31,6 +31,7 @@ class IndustryModel extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['created_by_id'] = $userId;
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $industries = IndustryModel::create($data);
             return ['id' => $industries->id, 'status' => 'success', 'message' => 'industries data saved!'];

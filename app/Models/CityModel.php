@@ -41,7 +41,7 @@ class CityModel extends Model
             $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by_id'] = null;
-
+            $data['updated_at'] = null;
             $city = CityModel::create($data);
             return ['id' => $city->id, 'status' => 'success', 'message' => 'City data saved!'];
         } else {

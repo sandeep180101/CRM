@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\IndustryModel;
 use App\Validations\IndustryTypeValidation;
 use Illuminate\Http\Request;
@@ -49,7 +50,15 @@ class IndustryTypeController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-
+            $objCommon = new CommonModel;
+            $uniqueFieldValue = array(
+                'industry_name' => $request->industry_name,
+            );
+            $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+            if ($uniqueCount > 0) {
+                $returnData = array('status' => 'exist', 'message' => 'Industry name already exists!', 'unique_field' => $uniqueFieldValue);
+                return json_encode($returnData);
+            }
             $objindustries = new IndustryModel();
             $returnData = $objindustries->saveData($request->all());
             if (count($returnData) <= 0) {

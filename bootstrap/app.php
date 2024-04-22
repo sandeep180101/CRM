@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->use(
+            [
+                \App\Http\Middleware\DeleteMiddleware::class,
+            ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

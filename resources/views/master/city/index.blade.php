@@ -74,7 +74,7 @@
                   <td>{{ $city->country_name}}</td>
                   <td>{{ $city->status}}</td>
                   <td><a href="{{url('cities/add/'. Crypt::encrypt($city->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
-                      <a href="#"><i class="bi bi-trash mx-2"></i></a></td>
+                      <a href="{{url('cities/delete/'.$city->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
                 </tr>
                 @endforeach
 

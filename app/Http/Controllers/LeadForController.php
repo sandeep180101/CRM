@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\LeadForModel;
 use App\Validations\LeadForValidation;
 use Illuminate\Http\Request;
@@ -49,7 +50,15 @@ class LeadForController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-
+            $objCommon = new CommonModel;
+            $uniqueFieldValue = array(
+                'lead_for_name' => $request->lead_for_name,
+            );
+            $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+            if ($uniqueCount > 0) {
+                $returnData = array('status' => 'exist', 'message' => 'Lead for name already exists!', 'unique_field' => $uniqueFieldValue);
+                return json_encode($returnData);
+            }
             $objleadfor = new LeadForModel();
             $returnData = $objleadfor->saveData($request->all());
             if (count($returnData) <= 0) {

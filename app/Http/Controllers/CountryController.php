@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\Countries;
 use App\Validations\countryValidation;
 use Illuminate\Http\Request;
@@ -48,6 +49,15 @@ class CountryController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
+            $objCommon = new CommonModel;
+        $uniqueFieldValue = array(
+            'country_name' => $request->country_name,
+        );
+        $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+        if ($uniqueCount > 0) {
+            $returnData = array('status' => 'exist', 'message' => 'Customer already exists!', 'unique_field' => $uniqueFieldValue);
+            return json_encode($returnData);
+        }
 
             $objcountries = new Countries();
             $returnData = $objcountries->saveData($request->all());

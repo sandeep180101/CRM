@@ -40,6 +40,7 @@ class StatesModel extends Model
             $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $state = StatesModel::create($data);
             return ['id' => $state->id, 'status' => 'success', 'message' => 'State data saved!'];

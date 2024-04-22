@@ -31,6 +31,7 @@ class BusinessModel extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['created_by_id'] = $userId;
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $businesses = BusinessModel::create($data);
             return ['id' => $businesses->id, 'status' => 'success', 'message' => 'Business data saved!'];

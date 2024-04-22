@@ -31,6 +31,7 @@ class Countries extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['created_by_id'] = 1;
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $country = Countries::create($data);
             return ['id' => $country->id, 'status' => 'success', 'message' => 'Country data saved!'];

@@ -33,6 +33,7 @@ class LeadForModel extends Model
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['created_by_id'] = 1;
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $leadfor = LeadForModel::create($data);
             return ['id' => $leadfor->id, 'status' => 'success', 'message' => 'Lead for data saved!'];

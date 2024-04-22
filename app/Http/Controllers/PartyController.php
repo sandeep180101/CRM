@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BusinessModel;
 use App\Models\CityModel;
+use App\Models\CommonModel;
 use App\Models\Countries;
 use App\Models\IndustryModel;
 use App\Models\Leads;
@@ -84,6 +85,16 @@ class PartyController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
+            $objCommon = new CommonModel;
+        $uniqueFieldValue = array(
+            'name' => $request->name,
+            'code'=> $request->code,
+        );
+        $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+        if ($uniqueCount > 0) {
+            $returnData = array('status' => 'exist', 'message' => 'Party name and code already exists!', 'unique_field' => $uniqueFieldValue);
+            return json_encode($returnData);
+        }
             $objleads = new PartyModel();
             $returnData = $objleads->saveData($request->all());
             if (count($returnData) <= 0) {

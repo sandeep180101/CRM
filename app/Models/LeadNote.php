@@ -36,6 +36,7 @@ class LeadNote extends Model
             $data['created_by_id'] = $userId;
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
             $leadnote = LeadNote::create($data);
             return ['id' => $leadnote->id, 'encryptid' => Crypt::encrypt($leadnote->id), 'status' => 'success', 'message' => 'leadnote data saved!'];
 

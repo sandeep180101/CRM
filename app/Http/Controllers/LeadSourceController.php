@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\LeadSourceStatus;
 use App\Validations\LeadSourceValidation;
 use Illuminate\Http\Request;
@@ -49,7 +50,15 @@ class LeadSourceController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-
+            $objCommon = new CommonModel;
+            $uniqueFieldValue = array(
+                'lead_source_name' => $request->lead_source_name,
+            );
+            $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+            if ($uniqueCount > 0) {
+                $returnData = array('status' => 'exist', 'message' => 'Lead source name already exists!', 'unique_field' => $uniqueFieldValue);
+                return json_encode($returnData);
+            }
             $objleadsource = new LeadSourceStatus();
             $returnData = $objleadsource->saveData($request->all());
             if (count($returnData) <= 0) {

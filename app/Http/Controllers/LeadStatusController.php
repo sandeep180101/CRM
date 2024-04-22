@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonModel;
 use App\Models\Leadstatus;
 use App\Validations\LeadStatusValidation;
 use Illuminate\Http\Request;
@@ -49,6 +50,15 @@ class LeadStatusController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
+            $objCommon = new CommonModel;
+        $uniqueFieldValue = array(
+            'lead_status_name' => $request->lead_status_name,
+        );
+        $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+        if ($uniqueCount > 0) {
+            $returnData = array('status' => 'exist', 'message' => 'Lead status name already exists!', 'unique_field' => $uniqueFieldValue);
+            return json_encode($returnData);
+        }
 
             $objleadstatus = new Leadstatus();
             $returnData = $objleadstatus->saveData($request->all());

@@ -31,7 +31,8 @@ class contactsModel extends Model
         if ($id == 0) {
             $data['created_by_id'] = 1;
             $data['created_at'] = date("Y-m-d H:i:s");
-            $data['updated_by_id_id'] = null;
+            $data['updated_by_id'] = null;
+            $data['updated_at'] = null;
 
             $contact = contactsModel::create($data);
             return ['id' => $contact->id, 'status' => 'success', 'message' => 'Contacts data saved!'];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BusinessModel;
+use App\Models\CommonModel;
 use App\Validations\BusinessTypeValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -49,7 +50,15 @@ class BusinessTypeController extends Controller
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
-
+            $objCommon = new CommonModel;
+            $uniqueFieldValue = array(
+                'business_name' => $request->business_name,
+            );
+            $uniqueCount = $objCommon->checkMultiUnique($this->table, $uniqueFieldValue, $request['id']);       
+            if ($uniqueCount > 0) {
+                $returnData = array('status' => 'exist', 'message' => 'Business name already exists!', 'unique_field' => $uniqueFieldValue);
+                return json_encode($returnData);
+            }
             $objbusinesses = new BusinessModel();
             $returnData = $objbusinesses->saveData($request->all());
             if (count($returnData) <= 0) {
