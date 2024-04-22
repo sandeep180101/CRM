@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Countries;
 use App\Models\StatesModel;
 use App\Validations\stateValidation;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ class StateController extends Controller
     public function add(Request $request,$id=null)
     {
         try {
-            $data["title"] = "Add User";
+            $data["title"] = "Add State";
             $param = array('limit' => 10 , 'start' => 0);
         $states = StatesModel::getAllStates($param);
+        $data['countries'] = Countries::getAllCountry($param);
         if($states['totalCount'] > 0){
             $data['states'] = $states['results'];
             $data['totalCount'] = $states['totalCount'];
@@ -58,6 +60,22 @@ class StateController extends Controller
             return json_encode($returnData);
         } catch (\Exception $e) {
             return $e->getMessage();
+        }
+    }
+    public function delete(Request $request, $id){
+        try {
+            $objstates = StatesModel::find($id);
+    
+            if (!$objstates) {
+                return response()->json(['status' => 'error', 'message' => 'Country data not found'], 404);
+            }
+    
+            $objstates->status = 1;
+            $objstates->save();
+    
+            return redirect()->back()->with('success', 'State deleted successfully');
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong'], 500);
         }
     }
 }

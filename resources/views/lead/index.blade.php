@@ -82,7 +82,7 @@
                             @if(!empty($leads['results']))
                                 
                             <tbody id="table-content">
-                                @foreach ($leads as $lead)
+                                @foreach ($leads['results'] as $lead)
                                 <tr>
                                     <td>{{ $lead->id }}</td>
                                     <td>{{ $lead->date}}</td>
@@ -191,4 +191,4 @@
 <script type="text/javascript" src="/assets/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript"> var SITE_URL = "<?php echo config('constants.SITE_URL');?>/";</script>
 <script type="text/javascript"> var ASSETS = "<?php echo config('constants.ASSETS');?>/";</script>  
-<script type="text/javascript" src="{{url('public/validations/lead.js')}}"></script>@endsection
+<script type="text/javascript" src="{{url('public/validations/leads.js')}}"></script>@endsection

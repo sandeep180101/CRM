@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#state_form").validate({
+    $("#states_form").validate({
         rules: {
             state_name: {
                 required: true
@@ -42,7 +42,7 @@ $(document).ready(function () {
                             $("#submitbutton").show();
                             $("#display_processing").css('display', 'none');
                         }
-                        commonStatusMessage(result, SITE_URL + 'states');
+                        commonStatusMessage(result, SITE_URL + 'states/add');
                     },
                     error: function () {
                     }

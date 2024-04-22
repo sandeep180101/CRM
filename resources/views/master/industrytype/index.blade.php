@@ -8,24 +8,13 @@
         <div class="card">
           <div class="card-body mt-3">
             <!-- Vertical Form -->
-            <form class="row g-3" id="states_form">
+            <form class="row g-3" id="industry_form">
                 <input type = "hidden" name = "_token" value = '<?php echo csrf_token(); ?>'>
                 <input type="text" class="form-control" id="id" name="id" value="{{isset($singleData['id']) ? $singleData['id'] : ''}}" hidden>
               <div class="col-12">
-                <label for="state_name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="state_name" name="state_name" value="{{isset($singleData['state_name']) ? $singleData['state_name'] : ''}}">
+                <label for="industry_name" class="form-label">Industry Name</label>
+                <input type="text" class="form-control" id="industry_name" name="industry_name" value="{{isset($singleData['industry_name']) ? $singleData['industry_name'] : ''}}">
               </div>
-              <div class="col-md-12">
-                <label for="country_id" class="form-label">Country</label>
-                <select class="form-select" id="country_id" name="country_id">
-                    <option value="" {{ !isset($singleData['country_id']) ? 'selected' : '' }}>Choose...</option>
-                    @if (!empty($countries['results']))
-                        @foreach($countries['results'] as $country)
-                            <option value="{{$country->id}}" {{ isset($singleData['country_id']) && $singleData['country_id'] == $country->id ? 'selected' : ''}}>{{$country->country_name}}</option>
-                        @endforeach
-                    @endif
-                </select>
-            </div>
               <div class="col-md-12">
                 <label for="status" class="form-label">Status</label>
                 <select name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Choose..." class="form-select mb-2">
@@ -47,23 +36,22 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th width="30%">state_Name</th>
-                  <th width="30%">Country</th>
-                  <th width="30%">Status</th>
-                  <th width="30%">Action</th>
+                  <th scope="col">lead source name</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>   
                 <tr>
-                  @foreach ($states as $state)
-                      
-                  <td>{{ $state->state_name}}</td>
-                  <td>{{ $state->country_name}}</td>
-                  <td>{{ $state->status}}</td>
-                  <td> <a href="{{url('states/add/'. Crypt::encrypt($state->id))}}"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
+                  @foreach ($industries as $industry)  
+                  @if($industry->status == "Active")
+                  <td>{{ $industry->industry_name}}</td>
+                  <td>{{ $industry->status}}</td>
+                  <td><a href="{{url('industry-type/add/'. Crypt::encrypt($industry->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
+                      <a href="{{url('industry-type/delete/'.$industry->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
                 </tr>
+                @endif
                 @endforeach
-
               </tbody>
             </table>
           </div>
@@ -75,5 +63,5 @@
   <script type="text/javascript" src="/assets/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript"> var SITE_URL = "<?php echo config('constants.SITE_URL');?>/";</script>
   <script type="text/javascript"> var ASSETS = "<?php echo config('constants.ASSETS');?>/";</script>  
-  <script type="text/javascript" src="{{url('public/validations/state.js')}}"></script>
+  <script type="text/javascript" src="{{url('public/validations/industrytype.js')}}"></script>
 @endsection

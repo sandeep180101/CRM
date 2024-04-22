@@ -1,14 +1,7 @@
-$(document).ready(function () {
-
-    $("#city_form").validate({
+jQuery(document).ready(function () {
+    $("#lead_source_form").validate({
         rules: {
-            city_name: {
-                required: true,
-            },
-            state_id: {
-                required: true,
-            },
-            country_id: {
+            lead_source_name: {
                 required: true,
             },
             status: {
@@ -16,17 +9,11 @@ $(document).ready(function () {
             },
         },
         messages: {
-            city_name: {
-                required: "Please enter a city name.",
-            },
-            state_id: {
-                required: "Please select state.",
-            },
-            country_id: {
-                required: "Please select country.",
+            lead_source_name: {
+                required: "Please enter a lead source name.",
             },
             status: {
-                required: "Please select status.",
+                required: "Please select a status.",
             },
         },
         
@@ -37,22 +24,22 @@ $(document).ready(function () {
             console.log(data);  
             $.ajax({
                 type: 'POST',
-                url: SITE_URL +'cities/save',
+                url: SITE_URL +'lead_source/save',
                 data: data,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function(response) {
                     var result = $.parseJSON(response);
-                    if(result.status == 'error') {
+                    if(result.source == 'error') {
                         $("#submitbutton").show();
                         $("#display_processing").css('display', 'none');
                     }
-                    else if(result.status == 'exist') {
+                    else if(result.source == 'exist') {
                         $("#submitbutton").show();
                         $("#display_processing").css('display', 'none');
                     }
-                    commonStatusMessage(result, SITE_URL + 'cities/add');
+                    commonStatusMessage(result, SITE_URL + 'lead_source/add');
 
                 },
                 error: function() {

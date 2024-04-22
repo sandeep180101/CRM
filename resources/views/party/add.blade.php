@@ -143,6 +143,6 @@
   </section>
 <script type="text/javascript"> var SITE_URL = "<?php echo config('constants.SITE_URL');?>/";</script>
 <script type="text/javascript"> var ASSETS = "<?php echo config('constants.ASSETS');?>/";</script>  
-<script type="text/javascript" src="{{url('public/validations/party.js')}}"></script>
+<script type="text/javascript" src="{{url('public/validations/parties.js')}}"></script>
 
 @endsection

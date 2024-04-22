@@ -2,37 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Countries;
-use App\Validations\countryValidation;
+use App\Models\BusinessModel;
+use App\Validations\BusinessTypeValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-class CountryController extends Controller
+
+class BusinessTypeController extends Controller
 {
     //
-    protected $table = 'master_countries';
+    protected $table = 'master_business_type';
 
     public function add(Request $request,$id=null)
     {
         try {
-            $data["title"] = "Add Country";
+            $data["title"] = "Add Business";
             $param = array('limit' => 10 , 'start' => 0);
-        $countries = Countries::getAllCountry($param);
-        if($countries['totalCount'] > 0){
-            $data['countries'] = $countries['results'];
-            $data['totalCount'] = $countries['totalCount'];
+        $businesses = BusinessModel::getAllbusiness($param);
+        if($businesses['totalCount'] > 0){
+            $data['businesses'] = $businesses['results'];
+            $data['totalCount'] = $businesses['totalCount'];
         }else{
-            $data['countries']  = [];
+            $data['businesses']  = [];
             $data['totalCount'] = 0;
         }
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
-                $countries = new Countries();
-                $data['singleData'] = $countries->getSingleData($decryptedId);
+                $businesses = new BusinessModel();
+                $data['singleData'] = $businesses->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
             }
-            return view("master.country.index", $data);
+            return view("master.businesstype.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -42,15 +43,15 @@ class CountryController extends Controller
         try {
             $returnData = [];
 
-            $countries = new countryValidation();
-            $validationResult = $countries->validate($request->all());
+            $businesses = new BusinessTypeValidation();
+            $validationResult = $businesses->validate($request->all());
 
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
 
-            $objcountries = new Countries();
-            $returnData = $objcountries->saveData($request->all());
+            $objbusinesses = new BusinessModel();
+            $returnData = $objbusinesses->saveData($request->all());
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }
@@ -63,16 +64,16 @@ class CountryController extends Controller
 
     public function delete(Request $request, $id){
         try {
-            $objcountries = Countries::find($id);
+            $objbusinesses = BusinessModel::find($id);
     
-            if (!$objcountries) {
-                return response()->json(['status' => 'error', 'message' => 'Country data not found'], 404);
+            if (!$objbusinesses) {
+                return response()->json(['status' => 'error', 'message' => 'Business data not found'], 404);
             }
     
-            $objcountries->status = 1;
-            $objcountries->save();
+            $objbusinesses->status = 1;
+            $objbusinesses->save();
     
-            return redirect()->back()->with('success', 'Country deleted successfully');
+            return redirect()->back()->with('success', 'Business deleted successfully');
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => 'Something went wrong'], 500);
         }

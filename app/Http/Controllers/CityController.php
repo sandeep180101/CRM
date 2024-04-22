@@ -22,6 +22,8 @@ class CityController extends Controller
             $data["title"] = "Add City";
             $param = array('limit' => 10 , 'start' => 0);
         $cities = CityModel::getAllCityModel($param);
+        $data['states'] = StatesModel::getAllStates($param);
+        $data['countries'] = Countries::getAllCountry($param);
         if($cities['totalCount'] > 0){
             $data['cities'] = $cities['results'];
             $data['totalCount'] = $cities['totalCount'];
@@ -62,6 +64,22 @@ class CityController extends Controller
             return json_encode($returnData);
         } catch (\Exception $e) {
             return $e->getMessage();
+        }
+    }
+    public function delete(Request $request, $id){
+        try {
+            $objcities = CityModel::find($id);
+    
+            if (!$objcities) {
+                return response()->json(['status' => 'error', 'message' => 'Country data not found'], 404);
+            }
+    
+            $objcities->status = 1;
+            $objcities->save();
+    
+            return redirect()->back()->with('success', 'City deleted successfully');
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong'], 500);
         }
     }
 

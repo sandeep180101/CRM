@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
-    $("#country_form").validate({
+    $("#lead_for_form").validate({
         rules: {
-            country_name: {
+            lead_for_name: {
                 required: true,
             },
             status: {
@@ -9,8 +9,8 @@ jQuery(document).ready(function () {
             },
         },
         messages: {
-            country_name: {
-                required: "Please enter a country name.",
+            lead_for_name: {
+                required: "Please enter a lead for name.",
             },
             status: {
                 required: "Please select a status.",
@@ -24,22 +24,22 @@ jQuery(document).ready(function () {
             console.log(data);  
             $.ajax({
                 type: 'POST',
-                url: SITE_URL +'countries/save',
+                url: SITE_URL +'lead_for/save',
                 data: data,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function(response) {
                     var result = $.parseJSON(response);
-                    if(result.status == 'error') {
+                    if(result.source == 'error') {
                         $("#submitbutton").show();
                         $("#display_processing").css('display', 'none');
                     }
-                    else if(result.status == 'exist') {
+                    else if(result.source == 'exist') {
                         $("#submitbutton").show();
                         $("#display_processing").css('display', 'none');
                     }
-                    commonStatusMessage(result, SITE_URL + 'countries');
+                    commonStatusMessage(result, SITE_URL + 'lead_for/add');
 
                 },
                 error: function() {

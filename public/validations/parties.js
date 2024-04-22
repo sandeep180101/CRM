@@ -30,6 +30,9 @@ $(document).ready(function () {
             code: {
                 required: true,
             },
+            status: {
+                required: true,
+            },
         },
         messages: {
             name: {
@@ -37,6 +40,9 @@ $(document).ready(function () {
             },
             code: {
                 required: "Please enter your code.",
+            },
+            status: {
+                required: "Please select status.",
             },
         },
 
@@ -58,7 +64,7 @@ $(document).ready(function () {
                         $("#submitbutton").show();
                         $("#display_processing").css('display', 'none');
                     }
-                    commonStatusMessage(result, SITE_URL + 'leads/view/' + result.encryptid);
+                    commonStatusMessage(result, SITE_URL + 'party/view/' + result.encryptid);
 
                 },
                 error: function () {
@@ -67,15 +73,13 @@ $(document).ready(function () {
         },
     });
     
-    $("#lead_search").on("click", function () {
+    $("#party_search").on("click", function () {
         filter.name = $('#name').val();
-        filter.company_name = $('#company_name').val();
+        filter.code = $('#code').val();
+        filter.party_type = $('#party_type').val();
         filter.phone = $('#phone').val();
         filter.email = $('#email').val();
-        filter.fdate = $('#fdate').val();
-        filter.tdate = $('#tdate').val();
-        filter.lead_status_id = $('#lead_status_id').val();
-        filter.lead_source_id = $('#lead_source_id').val();
+        filter.status = $('#status').val();
         filter.start = start;
         filter.limit = limit;
         filtering(filter);
@@ -85,11 +89,11 @@ $(document).ready(function () {
     function filtering(filter) {
         let start = filter.start;
         const date = new Date();
-        $("#lead_search").hide();
+        $("#party_search").hide();
         $("#search_display_processing").css('display', 'block');
         $.ajax({
             type: 'POST',
-            url: SITE_URL + 'leads/filter',
+            url: SITE_URL + 'party/filter',
             data: filter,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -102,25 +106,23 @@ $(document).ready(function () {
                     obj = $.parseJSON(response);
                 }
                 if (obj.status == 'success') {
-                    $("#lead_search").show();
+                    $("#party_search").show();
                     $("#search_display_processing").css('display', 'none');
                     if (obj.totalCount > 0) {
                         let html = '';
-                        let user = obj.leads;
+                        let user = obj.parties;
                         console.log(user);
                         for (let i = 0; i < user.length; i++) {
                             html += '<tr id="follow_up_row' + i + '">';
-                            html += '<td>' + user[i]['id'] + '</td>';
-                            html += '<td>' + user[i]['date'] + '</td>';
                             html += '<td>' + user[i]['name'] + '</td>';
-                            html += '<td>' + user[i]['company_name'] + '</td>';
+                            html += '<td>' + user[i]['code'] + '</td>';
+                            html += '<td>' + user[i]['party_type'] + '</td>';
                             html += '<td>' + user[i]['phone'] + '</td>';
                             html += '<td>' + user[i]['email'] + '</td>';
-                            html += '<td>' + user[i]['lead_status_name'] + '</td>';
-                            html += '<td>' + user[i]['lead_source_name'] + '</td>';
+                            html += '<td>' + user[i]['status'] + '</td>';
                             html += '<td>'
-                            + '<a href="' + SITE_URL + 'leads/add/' + user[i]['encrypted_id'] + '"><i class="bi bi-pencil-square mx-1"></i></a>&nbsp;&nbsp;'
-                            + '<a href="' + SITE_URL + 'leads/view/' + user[i]['encrypted_id'] + '"><i class="text-black bi bi-eye"></i></a>&nbsp;&nbsp;'                            
+                            + '<a href="' + SITE_URL + 'party/add/' + user[i]['encrypted_id'] + '"><i class="bi bi-pencil-square mx-1"></i></a>&nbsp;&nbsp;'
+                            + '<a href="' + SITE_URL + 'party/view/' + user[i]['encrypted_id'] + '"><i class="text-black bi bi-eye"></i></a>&nbsp;&nbsp;'                            
                                 + '</td>';
                             html += '</tr>';
                         }
@@ -149,13 +151,13 @@ $(document).ready(function () {
                             $('#pagination').find('ul li.last').attr('data-start', (parseInt((total_page - 1) * filter.limit)));
                         }
                     } else {
-                        $("#lead_search").show();
+                        $("#party_search").show();
                         $("#search_display_processing").css('display', 'none');
                         $('#table-content').html('<tr><td colspan="12" class="fieldEdit" style="text-align: center;">No record found.</td></tr>');
                         $('#showing').hide();
                     }
                 } else {
-                    $("#lead_search").show();
+                    $("#party_search").show();
                     $("#search_display_processing").css('display', 'none');
                     $('#table-content').html('<tr><td colspan="12" class="fieldEdit" style="text-align: center;">No record found.</td></tr>');
                     $('#showing').hide();

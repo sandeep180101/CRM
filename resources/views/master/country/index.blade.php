@@ -43,12 +43,14 @@
               </thead>
               <tbody>   
                 <tr>
-                  @foreach ($countries as $country)
-                      
+                  @foreach ($countries as $country)  
+                  @if($country->status == "Active")
                   <td>{{ $country->country_name}}</td>
                   <td>{{ $country->status}}</td>
-                  <td> <a href="{{url('country/'. Crypt::encrypt($country->id))}}"><i class="bi bi-pencil-square mx-1"></i></a><a href="#"><i class="bi bi-trash mx-2"></i></a></td>
+                  <td><a href="{{url('countries/add/'. Crypt::encrypt($country->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
+                      <a href="{{url('countries/delete/'.$country->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
                 </tr>
+                @endif
                 @endforeach
 
               </tbody>

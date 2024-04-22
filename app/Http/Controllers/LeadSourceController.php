@@ -2,37 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Countries;
-use App\Validations\countryValidation;
+use App\Models\LeadSourceStatus;
+use App\Validations\LeadSourceValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-class CountryController extends Controller
+
+class LeadSourceController extends Controller
 {
     //
-    protected $table = 'master_countries';
+    protected $table = 'master_lead_source';
 
     public function add(Request $request,$id=null)
     {
         try {
-            $data["title"] = "Add Country";
-            $param = array('limit' => 10 , 'start' => 0);
-        $countries = Countries::getAllCountry($param);
-        if($countries['totalCount'] > 0){
-            $data['countries'] = $countries['results'];
-            $data['totalCount'] = $countries['totalCount'];
+            $data["title"] = "Add Lead Source";
+            $param = array('limit' => 20 , 'start' => 0);
+        $leadsource = LeadSourceStatus::getAllLeadSource($param);
+        if($leadsource['totalCount'] > 0){
+            $data['leadsource'] = $leadsource['results'];
+            $data['totalCount'] = $leadsource['totalCount'];
         }else{
-            $data['countries']  = [];
+            $data['leadsource']  = [];
             $data['totalCount'] = 0;
         }
             if ($id) {
-                $decryptedId = Crypt::decrypt($id);
-                $countries = new Countries();
-                $data['singleData'] = $countries->getSingleData($decryptedId);
+                $decryptedId = crypt::decrypt($id);
+                $leadsource = new LeadSourceStatus();
+                $data['singleData'] = $leadsource->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
             }
-            return view("master.country.index", $data);
+            return view("master.leadsource.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -42,15 +43,15 @@ class CountryController extends Controller
         try {
             $returnData = [];
 
-            $countries = new countryValidation();
-            $validationResult = $countries->validate($request->all());
+            $leadsource = new LeadSourceValidation();
+            $validationResult = $leadsource->validate($request->all());
 
             if ($validationResult !== null) {
                 return json_encode($validationResult);
             }
 
-            $objcountries = new Countries();
-            $returnData = $objcountries->saveData($request->all());
+            $objleadsource = new LeadSourceStatus();
+            $returnData = $objleadsource->saveData($request->all());
             if (count($returnData) <= 0) {
                 $returnData = ['status' => 'error', 'message' => 'Error in data insertion'];
             }
@@ -63,14 +64,14 @@ class CountryController extends Controller
 
     public function delete(Request $request, $id){
         try {
-            $objcountries = Countries::find($id);
+            $objleadsource = LeadSourceStatus::find($id);
     
-            if (!$objcountries) {
+            if (!$objleadsource) {
                 return response()->json(['status' => 'error', 'message' => 'Country data not found'], 404);
             }
     
-            $objcountries->status = 1;
-            $objcountries->save();
+            $objleadsource->status = 1;
+            $objleadsource->save();
     
             return redirect()->back()->with('success', 'Country deleted successfully');
         } catch (\Exception $e) {

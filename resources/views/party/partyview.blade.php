@@ -8,45 +8,43 @@
         <div class="card">
           <div class="card-body mt-2">
             <div class="row pt-3">
-              {{-- @dd($leads); --}}
-              <div class="col-md-4 mt-2"> <b>Lead Id : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->id}}</div>
-              <div class="col-md-4 mt-2"> <b>Date :</b></div>
-              <div class="col-md-8 mt-2">{{$leads[0]->date}}</div>
+              {{-- @dd($parties); --}}
+              <div class="col-md-4 mt-2"> <b>Party Id : </b> </div>
+              <div class="col-md-8 mt-2">{{$parties[0]->id}}</div>
               <div class="col-md-4 mt-2"> <b>Name : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->name}}</div>
-              <div class="col-md-4 mt-2"> <b>Company Name :</b></div>
-              <div class="col-md-8 mt-2">{{$leads[0]->company_name}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->name}}</div>
+              <div class="col-md-4 mt-2"> <b>Party Code :</b></div>
+              <div class="col-md-8 mt-2">{{$parties[0]->code}}</div>
               <div class="col-md-4 mt-2"> <b>Phone : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->phone}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->phone}}</div>
               <div class="col-md-4 mt-2"> <b>Email : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->email}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->email}}</div>
               <div class="col-md-4 mt-2"> <b>Address : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->address}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->address}}</div>
               <div class="col-md-4 mt-2"> <b>Country : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->country_name}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->country_name}}</div>
               <div class="col-md-4 mt-2"> <b>State : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->state_name}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->state_name}}</div>
               <div class="col-md-4 mt-2"> <b>City: </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->city_name}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->city_name}}</div>
               <div class="col-md-4 mt-2"> <b>Pincode : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->pincode}}</div>
-              <div class="col-md-4 mt-2"> <b>Product Interested In  : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->remarks}}</div>
-              <div class="col-md-4 mt-2"> <b>Approximate Amount : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->approximate_amount}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->pincode}}</div>
+              <div class="col-md-4 mt-2"> <b>Industry Type : </b> </div>
+              <div class="col-md-8 mt-2">{{$parties[0]->industry_name}}</div>
+              <div class="col-md-4 mt-2"> <b>Business Type : </b> </div>
+              <div class="col-md-8 mt-2">{{$parties[0]->business_name}}</div>
               <div class="col-md-4 mt-2"> <b>Status : </b> </div>
-              <div class="col-md-8 mt-2">{{$leads[0]->lead_status_name}}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->status}}</div>
               <div class="col-md-4 mt-2"> <b>Created By :</b></div>
-              <div class="col-md-8 mt-2">{{$leads[0]->uname}}    {{$leads[0]->lead_timestamp_created }}</div>
+              <div class="col-md-8 mt-2">{{$parties[0]->uname}}    {{$parties[0]->party_timestamp_created }}</div>
               <div class="col-md-4 mt-2"> <b>Updated By : </b> </div>
-              @if(!empty($leads[0]->lead_timestamp_updated))
-              <div class="col-md-8 mt-2">{{$leads[0]->uname}}   {{$leads[0]->lead_timestamp_updated }}</div>
+              @if(!empty($parties[0]->party_timestamp_updated))
+              <div class="col-md-8 mt-2">{{$parties[0]->uname}}   {{$parties[0]->party_timestamp_updated }}</div>
               @endif
             </div>
             <div class=" mt-3">
-              <a href="{{url('leads/add/'.Crypt::encrypt($leads[0]->id))}}" type="submit" class="btn btn-danger"><i class="bi bi-pencil-square"></i> &nbsp;Edit Lead</a>
-              <a href="{{url('leads/add/'.Crypt::encrypt($leads[0]->id))}}" type="submit" class="btn btn-status"><i class="bi bi-bar-chart-line"></i> &nbsp;Change Status</a>
+              <a href="{{url('parties/add/'.Crypt::encrypt($parties[0]->id))}}" type="submit" class="btn btn-danger"><i class="bi bi-pencil-square"></i> &nbsp;Edit Lead</a>
+              <a href="{{url('parties/add/'.Crypt::encrypt($parties[0]->id))}}" type="submit" class="btn btn-status"><i class="bi bi-bar-chart-line"></i> &nbsp;Change Status</a>
             </div>
           </div>
         </div>
@@ -74,7 +72,7 @@
                 <!-- Change Password Form -->
                 <form action="{{url('leadnote/view/save')}}" method="POST">
                   @csrf
-                  <input type="hidden" name="lead_id" id="lead_id" value="{{$leads[0]->id}}">
+                  <input type="hidden" name="lead_id" id="lead_id" value="{{$parties[0]->id}}">
                   <div class="row mb-3">
                     <div class="col-sm-12">
                       <textarea class="form-control textarea-sty_1" id="notes" name="notes" style="height: 100px"></textarea>
@@ -89,7 +87,7 @@
                   <tbody>
                     @foreach ($leadnotes['results'] as $note)
                     <tr>
-                      @if ($note->status == "0" && $note->lead_id == $leads[0]->id)
+                      @if ($note->status == "0" && $note->lead_id == $parties[0]->id)
                       <td>{{$note->notes}}<br>
                         <b>{{$note->created_at}}</b></td>
                         <td><a href="{{url('leadnote/delete/'.$note->id)}}" onclick="return confirm('Are you sure you want to delete this note?');"><i class="bi bi-trash-fill text-red"></i></a></td>

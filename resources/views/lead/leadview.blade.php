@@ -12,7 +12,7 @@
               <div class="col-md-4 mt-2"> <b>Lead Id : </b> </div>
               <div class="col-md-8 mt-2">{{$leads[0]->id}}</div>
               <div class="col-md-4 mt-2"> <b>Date :</b></div>
-              <div class="col-md-8 mt-2">{{$leads[0]->date}}</div>
+              <div class="col-md-8 mt-2">{{$leads[0]->lead_created}}</div>
               <div class="col-md-4 mt-2"> <b>Name : </b> </div>
               <div class="col-md-8 mt-2">{{$leads[0]->name}}</div>
               <div class="col-md-4 mt-2"> <b>Company Name :</b></div>

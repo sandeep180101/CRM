@@ -33,9 +33,9 @@ class CityModel extends Model
         $saveFields = $this->getSaveData();
         $id = isset($post['id']) ? (int) $post['id'] : 0;
         unset($post['id']);
+        $userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
 
         $data = array_intersect_key($post, array_flip($saveFields));
-        $data['updated_at'] = date("Y-m-d H:i:s");
 
         if ($id == 0) {
             $data['created_by_id'] = 1;
@@ -47,7 +47,8 @@ class CityModel extends Model
         } else {
             $city = CityModel::find($id);
             if ($city) {
-                $data['updated_by_id'] = 1;
+                $data['updated_at'] = date('Y-m-d H:i:s');
+                $data['updated_by_id'] = $userId;
                 $city->update($data);
                 return ['id' => $id, 'status' => 'success', 'message' => 'City data updated!'];
             } else {

@@ -24,8 +24,8 @@ class Countries extends Model
         $id = isset($post['id']) ? (int) $post['id'] :0;
         unset($post['id']);
 
+        $userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
         $data = array_intersect_key($post, array_flip($saveFields));
-        $data['updated_at'] = date('Y-m-d H:i:s');
 
         if($id == 0){
             $data['created_at'] = date("Y-m-d H:i:s");
@@ -38,6 +38,8 @@ class Countries extends Model
         else{
             $country = Countries::find($id);
             if($country){
+                 $data['updated_at'] = date('Y-m-d H:i:s');
+                $data['updated_by_id'] = $userId;
                 $country->update($data);
                 return ['id'=> $country->id,'status'=> 'success','message'=> 'Country data updated'];
             }

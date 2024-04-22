@@ -1,14 +1,7 @@
-$(document).ready(function () {
-
-    $("#city_form").validate({
+jQuery(document).ready(function () {
+    $("#country_form").validate({
         rules: {
-            city_name: {
-                required: true,
-            },
-            state_id: {
-                required: true,
-            },
-            country_id: {
+            country_name: {
                 required: true,
             },
             status: {
@@ -16,17 +9,11 @@ $(document).ready(function () {
             },
         },
         messages: {
-            city_name: {
-                required: "Please enter a city name.",
-            },
-            state_id: {
-                required: "Please select state.",
-            },
-            country_id: {
-                required: "Please select country.",
+            country_name: {
+                required: "Please enter a country name.",
             },
             status: {
-                required: "Please select status.",
+                required: "Please select a status.",
             },
         },
         
@@ -37,7 +24,7 @@ $(document).ready(function () {
             console.log(data);  
             $.ajax({
                 type: 'POST',
-                url: SITE_URL +'cities/save',
+                url: SITE_URL +'countries/save',
                 data: data,
                 cache: false,
                 contentType: false,
@@ -52,7 +39,7 @@ $(document).ready(function () {
                         $("#submitbutton").show();
                         $("#display_processing").css('display', 'none');
                     }
-                    commonStatusMessage(result, SITE_URL + 'cities/add');
+                    commonStatusMessage(result, SITE_URL + 'countries/add');
 
                 },
                 error: function() {

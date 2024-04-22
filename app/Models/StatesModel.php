@@ -34,7 +34,7 @@ class StatesModel extends Model
         unset($post['id']);
 
         $data = array_intersect_key($post, array_flip($saveFields));
-        $data['updated_at'] = date("Y-m-d H:i:s");
+        $userId = session()->get('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
 
         if ($id == 0) {
             $data['created_by_id'] = 1;
@@ -46,7 +46,8 @@ class StatesModel extends Model
         } else {
             $state = StatesModel::find($id);
             if ($state) {
-                $data['updated_by_id'] = 1;
+                $data['updated_at'] = date('Y-m-d H:i:s');
+                $data['updated_by_id'] = $userId;
                 $state->update($data);
                 return ['id' => $id, 'status' => 'success', 'message' => 'State data updated!'];
             } else {

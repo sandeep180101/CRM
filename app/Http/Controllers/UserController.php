@@ -61,4 +61,20 @@ class UserController extends Controller
             return $e->getMessage();
         }
     }
+    public function delete(Request $request, $id){
+        try {
+            $objusers = User::find($id);
+    
+            if (!$objusers) {
+                return response()->json(['status' => 'error', 'message' => 'Country data not found'], 404);
+            }
+    
+            $objusers->status = 1;
+            $objusers->save();
+    
+            return redirect()->back()->with('success', 'User deleted successfully');
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong'], 500);
+        }
+    }
 }

@@ -6,6 +6,9 @@ use App\Models\BusinessModel;
 use App\Models\CityModel;
 use App\Models\Countries;
 use App\Models\IndustryModel;
+use App\Models\Leads;
+use App\Models\LeadSourceStatus;
+use App\Models\Leadstatus;
 use App\Models\PartyModel;
 use App\Models\StatesModel;
 use Illuminate\Http\Request;
@@ -16,14 +19,16 @@ use App\Validations\PartyValidation;
 
 class PartyController extends Controller
 {
-    //
-    protected $table = 'leads';
+    protected $table = 'party';
 
     public function index()
     {
         try {
-            $data['title'] = "Leads Detail";
+            $data['title'] = "Party Detail";
             $param = array('start' => 0);
+            $data["parties"] = PartyModel::getAllparty($param);
+            // dd($data);
+            // dd($lead_source);
             return view("party.index", $data);
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -35,10 +40,10 @@ class PartyController extends Controller
         try {
             $decryptedId = Crypt::decrypt($id);
             $param = array('id' => $decryptedId);
-            $data["title"] = "Lead View";
-            $data["leadnotes"] = LeadNote::getLeadNote($param);
-            $leads = Leads::getAllLeads($param);
-            $data["leads"] = $leads['results'];
+            $data["title"] = "Party View";
+            // $data["leadnotes"] = LeadNote::getLeadNote($param);
+            $parties = PartyModel::getAllparty($param);
+            $data["parties"] = $parties['results'];
 
             return view("party.partyview", $data);
         } catch (\Exception $e) {
@@ -50,16 +55,15 @@ class PartyController extends Controller
     {
         try {
             $data["title"] = "Add Party";
-            $param = array('start' => 0);
             $data["cities"] = CityModel::getAllCityModel();
             $data["countries"] = Countries::getAllCountry();
             $data["states"] = StatesModel::getAllStates();
-            $data['industries'] = IndustryModel::getAllIndustry( $param );
-            $data['businesses'] = BusinessModel::getAllBusiness( $param );
+            $data["industries"] = IndustryModel::getAllIndustry();
+            $data["businesses"] = BusinessModel::getAllBusiness();
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
-                $party = new PartyModel();
-                $data['singleData'] = $party->getSingleData($decryptedId);
+                $parties = new PartyModel();
+                $data['singleData'] = $parties->getSingleData($decryptedId);
             } else {
                 $data['singleData'] = '';
             }
@@ -92,36 +96,31 @@ class PartyController extends Controller
         }
     }
 
-    public static function leadFilter(Request $request)
+    public static function PartyFilter(Request $request)
     {
         try {
             $limit = $request->limit ? $request->limit : 10;
             $start = $request->start ? $request->start : 0;
             $params = array(
                 'name' => $request->name,
-                'company_name' => $request->company_name,
+                'code' => $request->code,
                 'phone' => $request->phone,
                 'email' => $request->email,
-                'fdate' => $request->fdate,
-                'tdate' => $request->tdate,
-                'lead_status_id' => $request->lead_status_id,
-                'lead_source_id' => $request->lead_source_id,
+                'status' => $request->status,
                 'start' => $start,
                 'limit' => $limit,
             );
 
             if (count(array_filter($params)) > 0) {
-                $leads = Leads::getAllLeads($params);
+                $parties = PartyModel::getAllparty($params);
             }
             $data = [];
 
-            if ($leads['totalCount'] > 0) {
+            if ($parties['totalCount'] > 0) {
                 $param = array('start' => 0);
-                $leadSources = LeadSourceStatus::getAllLeadSource($param);
-                $leadStatus = Leadstatus::getAllLeadStatus($param);
-                $data['leads'] = $leads['results'];
-                $data['totalCount'] = $leads['totalCount'];
-                $count = count($leads['results']);
+                $data['parties'] = $parties['results'];
+                $data['totalCount'] = $parties['totalCount'];
+                $count = count($parties['results']);
                 $data['status'] = 'success';
             } else {
                 $data['message'] = 'No records found.';
