@@ -60,7 +60,8 @@
                   <td>{{ $state->state_name}}</td>
                   <td>{{ $state->country_name}}</td>
                   <td>{{ $state->status}}</td>
-                  <td> <a href="{{url('states/add/'. Crypt::encrypt($state->id))}}"><i class="bi bi-pencil-square mx-1"></i></a><a href="{{url('states/delete/'.$user->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
+                  <td> <a href="{{url('states/add/'. Crypt::encrypt($state->id))}}"><i class="bi bi-pencil-square mx-1"></i></a><a href="{{url('states/delete/'.$user->id)}}">@include('partials.trash-icon')
+</a></td>
                 </tr>
                 @endforeach
 

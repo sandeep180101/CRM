@@ -17,7 +17,6 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\DeleteMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
@@ -36,7 +35,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('home', [DashboardController::class, 'index']);
 
-    // Route::middleware([DeleteMiddleware::class])->group(function () {
         Route::any('contacts/delete/{id}', [ContactController::class, 'destroy']);
         Route::get('user/delete/{id}', [UserController::class, 'delete']);
         Route::get('countries/delete/{id}', [CountryController::class, 'delete']);
@@ -47,7 +45,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('lead_for/delete/{id}', [LeadForController::class, 'delete']);
         Route::get('industry-type/delete/{id}', [IndustryTypeController::class, 'delete']);
         Route::get('business-type/delete/{id}', [BusinessTypeController::class, 'delete']);
-    // });
 
     Route::get('contacts', [ContactController::class, 'index']);
     Route::get('contacts/add/{id?}', [ContactController::class, 'add']);

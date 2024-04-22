@@ -48,7 +48,8 @@
                   <td>{{ $for->lead_for_name}}</td>
                   <td>{{ $for->status}}</td>
                   <td><a href="{{url('lead_for/add/'. Crypt::encrypt($for->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
-                      <a href="{{url('lead_for/delete/'.$for->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
+                      <a href="{{url('lead_for/delete/'.$for->id)}}">@include('partials.trash-icon')
+</a></td>
                 </tr>
                 @endif
                 @endforeach

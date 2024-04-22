@@ -71,7 +71,8 @@
                       <td>
                         <a href="{{ url('party/add/' . Crypt::encrypt($party->id)) }}"><i class="bi bi-pencil-square mx-1"></i></a>&nbsp;&nbsp;
                                         <a href="{{url('party/view/'.Crypt::encrypt($party->id))}}"><i class="text-black bi bi-eye"></i></a>&nbsp;&nbsp;
-                                        <a href="{{url('party/delete/'.$party->id)}}"><i class="bi bi-trash mx-2"></i></a>
+                                        <a href="{{url('party/delete/'.$party->id)}}">@include('partials.trash-icon')
+</a>
 
                       </td>
                     </tr>   

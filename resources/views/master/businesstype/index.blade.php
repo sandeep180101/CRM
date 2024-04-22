@@ -48,7 +48,8 @@
                   <td>{{ $business->business_name}}</td>
                   <td>{{ $business->status}}</td>
                   <td><a href="{{url('business-type/add/'. Crypt::encrypt($business->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
-                      <a href="{{url('business-type/delete/'.$business->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
+                      <a href="{{url('business-type/delete/'.$business->id)}}">@include('partials.trash-icon')
+</a></td>
                 </tr>
                 @endif
                 @endforeach

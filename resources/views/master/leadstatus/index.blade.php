@@ -48,7 +48,8 @@
                   <td>{{ $status->lead_status_name}}</td>
                   <td>{{ $status->status}}</td>
                   <td><a href="{{url('lead_status/add/'. Crypt::encrypt($status->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
-                      <a href="{{url('lead_status/delete/'.$status->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
+                      <a href="{{url('lead_status/delete/'.$status->id)}}">@include('partials.trash-icon')
+</a></td>
                 </tr>
                 @endif
                 @endforeach

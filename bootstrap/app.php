@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->use(
             [
-                \App\Http\Middleware\DeleteMiddleware::class,
+                // \App\Http\Middleware\DeleteMiddleware::class,
             ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

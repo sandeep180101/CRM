@@ -48,7 +48,8 @@
                   <td>{{ $industry->industry_name}}</td>
                   <td>{{ $industry->status}}</td>
                   <td><a href="{{url('industry-type/add/'. Crypt::encrypt($industry->id))}}"><i class="bi bi-pencil-square mx-1"></i></a>
-                      <a href="{{url('industry-type/delete/'.$industry->id)}}"><i class="bi bi-trash mx-2"></i></a></td>
+                      <a href="{{url('industry-type/delete/'.$industry->id)}}">@include('partials.trash-icon')
+</a></td>
                 </tr>
                 @endif
                 @endforeach

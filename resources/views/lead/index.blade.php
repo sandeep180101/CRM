@@ -95,7 +95,7 @@
                                     <td>
                                         <a href="{{ url('leads/add/' . Crypt::encrypt($lead->id)) }}"><i class="bi bi-pencil-square mx-1"></i></a>&nbsp;&nbsp;
                                         <a href="{{url('leads/view/'.Crypt::encrypt($lead->id))}}"><i class="text-black bi bi-eye"></i></a>&nbsp;&nbsp;
-                                        <a href="{{url('leads/delete/'.$lead->id)}}"><i class="bi bi-trash mx-2"></i></a>
+                                        <a href="{{url('leads/delete/'.$lead->id)}}">@include('partials.trash-icon')</a>
                                     </td>
                                 </tr>
                                 @endforeach
